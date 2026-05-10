@@ -1,0 +1,104 @@
+.level8-page{
+
+    min-height:100vh;
+
+    padding:40px;
+
+    background:
+    radial-gradient(circle at top,#1E3A8A,#0F172A);
+
+    color:white;
+
+    text-align:center;
+}
+
+.track-container{
+
+    margin:50px auto;
+
+    width:90%;
+}
+
+.track{
+
+    width:100%;
+
+    height:80px;
+
+    background:#111827;
+
+    border-radius:40px;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.runner{
+
+    position:absolute;
+
+    top:15px;
+
+    left:0;
+
+    font-size:3rem;
+
+    transition:0.5s;
+}
+
+.trophy{
+
+    position:absolute;
+
+    right:20px;
+
+    top:10px;
+
+    font-size:3.5rem;
+}
+
+.question-box{
+
+    width:800px;
+
+    margin:50px auto;
+
+    padding:40px;
+
+    border-radius:20px;
+
+    background:
+    rgba(255,255,255,0.05);
+
+    backdrop-filter:blur(10px);
+}
+
+.options{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:20px;
+
+    margin-top:40px;
+}
+
+.options button{
+
+    padding:20px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#38BDF8;
+
+    font-size:1rem;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}

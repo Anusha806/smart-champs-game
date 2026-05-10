@@ -1,0 +1,184 @@
+.level3-page{
+
+    min-height:100vh;
+
+    padding:40px;
+
+    background:
+    radial-gradient(
+        circle at top,
+        #1E3A8A,
+        #0F172A
+    );
+
+    color:white;
+}
+
+.level3-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:30px;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+}
+
+.level3-page h1{
+
+    text-align:center;
+
+    margin-bottom:20px;
+}
+
+.hint{
+
+    text-align:center;
+
+    margin-bottom:40px;
+
+    color:#CBD5E1;
+
+    font-size:1.1rem;
+}
+
+.puzzle-grid{
+
+    width:500px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(5,1fr);
+
+    gap:5px;
+}
+
+.tile{
+
+    width:95px;
+
+    height:95px;
+
+    background:#111827;
+
+    border:2px solid #334155;
+
+    border-radius:8px;
+
+    overflow:hidden;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    transition:0.3s;
+}
+
+.tile:hover{
+
+    transform:scale(1.03);
+}
+
+.revealed-image{
+
+    width:100%;
+
+    height:100%;
+
+    background-repeat:no-repeat;
+}
+
+.controls{
+
+    margin-top:40px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+}
+
+.controls button{
+
+    padding:12px 25px;
+
+    border-radius:10px;
+
+    border:none;
+
+    background:#38BDF8;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.controls button:hover{
+
+    transform:scale(1.05);
+
+    background:#0EA5E9;
+}
+
+.controls input{
+
+    padding:12px;
+
+    width:250px;
+
+    border-radius:10px;
+
+    border:none;
+
+    outline:none;
+
+    font-size:1rem;
+}
+
+.game-over{
+
+    margin-top:40px;
+
+    text-align:center;
+}
+
+.next-btn{
+
+    margin-top:20px;
+
+    padding:14px 30px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#22C55E;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.next-btn:hover{
+
+    transform:scale(1.05);
+
+    background:#16A34A;
+}

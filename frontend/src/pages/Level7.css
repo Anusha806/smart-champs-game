@@ -1,0 +1,81 @@
+.level7-page{
+
+    min-height:100vh;
+
+    padding:40px;
+
+    background:
+    radial-gradient(circle at top,#1E3A8A,#0F172A);
+
+    color:white;
+
+    text-align:center;
+}
+
+.top-bar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:40px;
+
+    flex-wrap:wrap;
+}
+
+.logic-card{
+
+    width:800px;
+
+    margin:auto;
+
+    padding:50px;
+
+    border-radius:20px;
+
+    background:
+    rgba(255,255,255,0.05);
+
+    backdrop-filter:blur(10px);
+}
+
+.logic-card h2{
+
+    margin-bottom:40px;
+
+    line-height:1.6;
+}
+
+.logic-options{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:20px;
+}
+
+.logic-options button{
+
+    padding:20px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#38BDF8;
+
+    font-size:1rem;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.logic-options button:hover{
+
+    transform:scale(1.05);
+}

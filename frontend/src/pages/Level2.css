@@ -1,0 +1,89 @@
+.level2-page{
+    min-height:100vh;
+    background:
+    radial-gradient(circle at top,#1E3A8A,#0F172A);
+
+    color:white;
+
+    padding:30px;
+}
+
+.level2-topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:30px;
+}
+
+.maze-container{
+    width:700px;
+    height:700px;
+
+    margin:auto;
+
+    position:relative;
+
+    background:#111827;
+
+    border:5px solid #38BDF8;
+
+    overflow:hidden;
+}
+
+.player{
+    width:40px;
+    height:40px;
+
+    background:#38BDF8;
+
+    border-radius:10px;
+
+    position:absolute;
+
+    transition:0.1s;
+
+    box-shadow:0 0 20px #38BDF8;
+}
+
+.door{
+    width:60px;
+    height:60px;
+
+    background:#F59E0B;
+
+    position:absolute;
+
+    border-radius:12px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-weight:bold;
+
+    box-shadow:0 0 20px #F59E0B;
+}
+
+.completed-door{
+    background:#22C55E;
+    box-shadow:0 0 20px #22C55E;
+}
+
+.wrong-door{
+    background:#EF4444;
+    box-shadow:0 0 20px #EF4444;
+}
+
+.level2-info{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.level2-info h1{
+    margin-bottom:10px;
+}
+
+.instructions{
+    color:#CBD5E1;
+}

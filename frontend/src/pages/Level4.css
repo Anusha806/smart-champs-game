@@ -1,0 +1,85 @@
+.level4-page{
+    min-height:100vh;
+    padding:40px;
+
+    background:
+    radial-gradient(circle at top,#1E3A8A,#0F172A);
+
+    color:white;
+
+    text-align:center;
+}
+
+.crossword-card{
+    width:600px;
+
+    margin:50px auto;
+
+    padding:40px;
+
+    border-radius:20px;
+
+    background:
+    rgba(255,255,255,0.05);
+
+    backdrop-filter:blur(10px);
+}
+
+.word-grid{
+    display:flex;
+    justify-content:center;
+
+    gap:10px;
+
+    margin:40px 0;
+}
+
+.letter-box{
+    width:60px;
+    height:60px;
+
+    background:#111827;
+
+    border-radius:10px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:2rem;
+    font-weight:bold;
+
+    border:2px solid #38BDF8;
+}
+
+.crossword-card input{
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    outline:none;
+
+    margin-bottom:20px;
+
+    font-size:1rem;
+}
+
+.crossword-card button{
+    padding:15px 30px;
+
+    border-radius:12px;
+
+    background:#38BDF8;
+
+    font-weight:bold;
+}
+
+.progress{
+    margin-top:20px;
+
+    font-size:1.2rem;
+}
