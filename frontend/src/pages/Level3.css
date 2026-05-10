@@ -2,7 +2,7 @@
 
     min-height:100vh;
 
-    padding:40px;
+    padding:40px 20px;
 
     background:
     radial-gradient(
@@ -20,11 +20,15 @@
 
     justify-content:space-between;
 
+    align-items:center;
+
     margin-bottom:30px;
 
     flex-wrap:wrap;
 
     gap:20px;
+
+    text-align:center;
 }
 
 .level3-page h1{
@@ -32,22 +36,30 @@
     text-align:center;
 
     margin-bottom:20px;
+
+    font-size:clamp(
+        2rem,
+        5vw,
+        3rem
+    );
 }
 
 .hint{
 
     text-align:center;
 
-    margin-bottom:40px;
+    margin-bottom:35px;
 
     color:#CBD5E1;
 
-    font-size:1.1rem;
+    font-size:1.05rem;
+
+    padding:0 10px;
 }
 
 .puzzle-grid{
 
-    width:500px;
+    width:min(95vw,500px);
 
     margin:auto;
 
@@ -61,9 +73,7 @@
 
 .tile{
 
-    width:95px;
-
-    height:95px;
+    aspect-ratio:1/1;
 
     background:#111827;
 
@@ -94,6 +104,8 @@
     height:100%;
 
     background-repeat:no-repeat;
+
+    background-size:cover;
 }
 
 .controls{
@@ -104,6 +116,8 @@
 
     justify-content:center;
 
+    align-items:center;
+
     gap:20px;
 
     flex-wrap:wrap;
@@ -113,11 +127,15 @@
 
     padding:12px 25px;
 
+    min-height:48px;
+
     border-radius:10px;
 
     border:none;
 
     background:#38BDF8;
+
+    color:white;
 
     font-weight:bold;
 
@@ -137,7 +155,9 @@
 
     padding:12px;
 
-    width:250px;
+    width:min(90vw,250px);
+
+    min-height:48px;
 
     border-radius:10px;
 
@@ -153,6 +173,8 @@
     margin-top:40px;
 
     text-align:center;
+
+    padding:20px;
 }
 
 .next-btn{
@@ -160,6 +182,8 @@
     margin-top:20px;
 
     padding:14px 30px;
+
+    min-height:50px;
 
     border:none;
 
@@ -181,4 +205,64 @@
     transform:scale(1.05);
 
     background:#16A34A;
+}
+
+@media(max-width:768px){
+
+    .level3-page{
+
+        padding:30px 15px;
+    }
+
+    .controls{
+
+        gap:15px;
+    }
+
+    .controls button{
+
+        width:220px;
+    }
+}
+
+@media(max-width:500px){
+
+    .level3-top{
+
+        flex-direction:column;
+
+        justify-content:center;
+
+        gap:12px;
+    }
+
+    .hint{
+
+        font-size:14px;
+    }
+
+    .controls{
+
+        flex-direction:column;
+    }
+
+    .controls button{
+
+        width:90%;
+    }
+
+    .controls input{
+
+        width:90%;
+    }
+
+    .next-btn{
+
+        width:90%;
+    }
+
+    .puzzle-grid{
+
+        gap:4px;
+    }
 }

@@ -2,10 +2,14 @@
 
     min-height:100vh;
 
-    padding:40px;
+    padding:40px 20px;
 
     background:
-    radial-gradient(circle at top,#1E3A8A,#0F172A);
+    radial-gradient(
+        circle at top,
+        #1E3A8A,
+        #0F172A
+    );
 
     color:white;
 
@@ -18,18 +22,35 @@
 
     justify-content:space-between;
 
+    align-items:center;
+
     margin-bottom:40px;
 
     flex-wrap:wrap;
+
+    gap:15px;
+
+    text-align:center;
+}
+
+.level7-page h1{
+
+    font-size:clamp(
+        2rem,
+        5vw,
+        3rem
+    );
+
+    margin-bottom:30px;
 }
 
 .logic-card{
 
-    width:800px;
+    width:min(95vw,800px);
 
     margin:auto;
 
-    padding:50px;
+    padding:50px 30px;
 
     border-radius:20px;
 
@@ -37,6 +58,8 @@
     rgba(255,255,255,0.05);
 
     backdrop-filter:blur(10px);
+
+    box-sizing:border-box;
 }
 
 .logic-card h2{
@@ -44,6 +67,12 @@
     margin-bottom:40px;
 
     line-height:1.6;
+
+    font-size:clamp(
+        1.2rem,
+        3vw,
+        2rem
+    );
 }
 
 .logic-options{
@@ -60,11 +89,15 @@
 
     padding:20px;
 
+    min-height:60px;
+
     border:none;
 
     border-radius:12px;
 
     background:#38BDF8;
+
+    color:white;
 
     font-size:1rem;
 
@@ -78,4 +111,104 @@
 .logic-options button:hover{
 
     transform:scale(1.05);
+
+    background:#0EA5E9;
+}
+
+.game-over{
+
+    margin-top:40px;
+
+    padding:20px;
+}
+
+.next-btn{
+
+    margin-top:20px;
+
+    padding:14px 30px;
+
+    min-height:50px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#22C55E;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.next-btn:hover{
+
+    transform:scale(1.05);
+
+    background:#16A34A;
+}
+
+@media(max-width:768px){
+
+    .logic-card{
+
+        padding:35px 20px;
+    }
+
+    .logic-options{
+
+        gap:15px;
+    }
+
+    .logic-options button{
+
+        padding:16px;
+
+        font-size:0.95rem;
+    }
+}
+
+@media(max-width:500px){
+
+    .level7-page{
+
+        padding:25px 12px;
+    }
+
+    .top-bar{
+
+        flex-direction:column;
+
+        justify-content:center;
+
+        gap:10px;
+    }
+
+    .logic-card{
+
+        padding:25px 15px;
+    }
+
+    .logic-options{
+
+        grid-template-columns:1fr;
+
+        gap:12px;
+    }
+
+    .logic-options button{
+
+        width:100%;
+
+        font-size:0.9rem;
+    }
+
+    .next-btn{
+
+        width:90%;
+    }
 }

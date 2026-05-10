@@ -29,7 +29,7 @@ function Level5() {
     const navigate =
     useNavigate();
 
-    const gridSize = 144;
+    const gridSize = 36;
 
     const maxRounds = 5;
 
@@ -365,7 +365,6 @@ function Level5() {
                             key={index}
 
                             className={`
-
                                 reactor-cell
 
                                 ${

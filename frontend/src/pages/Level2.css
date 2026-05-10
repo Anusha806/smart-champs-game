@@ -1,24 +1,66 @@
 .level2-page{
+
     min-height:100vh;
+
     background:
-    radial-gradient(circle at top,#1E3A8A,#0F172A);
+    radial-gradient(
+        circle at top,
+        #1E3A8A,
+        #0F172A
+    );
 
     color:white;
 
-    padding:30px;
+    padding:30px 15px;
 }
 
 .level2-topbar{
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
 
     margin-bottom:30px;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    text-align:center;
+}
+
+.level2-info{
+
+    text-align:center;
+
+    margin-bottom:25px;
+}
+
+.level2-info h1{
+
+    margin-bottom:10px;
+
+    font-size:clamp(
+        2rem,
+        5vw,
+        3rem
+    );
+}
+
+.instructions{
+
+    color:#CBD5E1;
+
+    padding:0 10px;
 }
 
 .maze-container{
-    width:700px;
-    height:700px;
+
+    width:min(95vw,700px);
+
+    height:min(95vw,700px);
 
     margin:auto;
 
@@ -29,10 +71,14 @@
     border:5px solid #38BDF8;
 
     overflow:hidden;
+
+    border-radius:15px;
 }
 
 .player{
+
     width:40px;
+
     height:40px;
 
     background:#38BDF8;
@@ -43,11 +89,16 @@
 
     transition:0.1s;
 
-    box-shadow:0 0 20px #38BDF8;
+    box-shadow:
+    0 0 20px #38BDF8;
+
+    z-index:5;
 }
 
 .door{
+
     width:60px;
+
     height:60px;
 
     background:#F59E0B;
@@ -57,33 +108,161 @@
     border-radius:12px;
 
     display:flex;
+
     justify-content:center;
+
     align-items:center;
 
     font-weight:bold;
 
-    box-shadow:0 0 20px #F59E0B;
+    box-shadow:
+    0 0 20px #F59E0B;
+
+    font-size:1.2rem;
 }
 
 .completed-door{
+
     background:#22C55E;
-    box-shadow:0 0 20px #22C55E;
+
+    box-shadow:
+    0 0 20px #22C55E;
 }
 
 .wrong-door{
+
     background:#EF4444;
-    box-shadow:0 0 20px #EF4444;
+
+    box-shadow:
+    0 0 20px #EF4444;
 }
 
-.level2-info{
-    text-align:center;
-    margin-bottom:25px;
+.mobile-controls{
+
+    margin-top:30px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:10px;
 }
 
-.level2-info h1{
-    margin-bottom:10px;
+.mobile-controls div{
+
+    display:flex;
+
+    gap:10px;
 }
 
-.instructions{
-    color:#CBD5E1;
+.mobile-controls button{
+
+    width:60px;
+
+    height:60px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#38BDF8;
+
+    color:white;
+
+    font-size:1.5rem;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+.mobile-controls button:active{
+
+    transform:scale(0.95);
+}
+
+@media(max-width:768px){
+
+    .level2-page{
+
+        padding:20px 10px;
+    }
+
+    .player{
+
+        width:32px;
+
+        height:32px;
+    }
+
+    .door{
+
+        width:50px;
+
+        height:50px;
+
+        font-size:1rem;
+    }
+
+    .mobile-controls button{
+
+        width:55px;
+
+        height:55px;
+
+        font-size:1.3rem;
+    }
+}
+
+@media(max-width:500px){
+
+    .level2-topbar{
+
+        flex-direction:column;
+
+        justify-content:center;
+    }
+
+    .instructions{
+
+        font-size:14px;
+    }
+
+    .maze-container{
+
+        border-width:3px;
+    }
+
+    .player{
+
+        width:28px;
+
+        height:28px;
+
+        border-radius:8px;
+    }
+
+    .door{
+
+        width:42px;
+
+        height:42px;
+
+        border-radius:10px;
+
+        font-size:0.9rem;
+    }
+
+    .mobile-controls button{
+
+        width:50px;
+
+        height:50px;
+
+        font-size:1.2rem;
+    }
 }

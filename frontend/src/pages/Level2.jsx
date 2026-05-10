@@ -15,6 +15,8 @@ function Level2() {
         setCurrentLevel
     } = useContext(GameContext);
 
+    const navigate = useNavigate();
+
     const [timeLeft,setTimeLeft] =
     useState(90);
 
@@ -32,6 +34,11 @@ function Level2() {
     setCheckpointStatus] =
     useState({});
 
+    const [gameOver,setGameOver] =
+    useState(false);
+
+    const mazeLimit = 660;
+
     const checkpoints = [
 
         {id:1,x:80,y:80},
@@ -48,11 +55,12 @@ function Level2() {
 
     ];
 
-    const navigate = useNavigate();
-
     useEffect(()=>{
 
-        if(timeLeft <= 0) return;
+        if(
+            timeLeft <= 0 ||
+            gameOver
+        ) return;
 
         const timer = setInterval(()=>{
 
@@ -62,51 +70,83 @@ function Level2() {
 
         return ()=>clearInterval(timer);
 
+    },[timeLeft,gameOver]);
+
+    useEffect(()=>{
+
+        if(timeLeft <= 0){
+
+            setGameOver(true);
+        }
+
     },[timeLeft]);
+
+    const movePlayer = (direction)=>{
+
+        if(
+            currentQuestion ||
+            gameOver
+        ) return;
+
+        const speed = 20;
+
+        setPlayerPos(prev=>{
+
+            let newX = prev.x;
+            let newY = prev.y;
+
+            if(direction === "up"){
+                newY -= speed;
+            }
+
+            if(direction === "down"){
+                newY += speed;
+            }
+
+            if(direction === "left"){
+                newX -= speed;
+            }
+
+            if(direction === "right"){
+                newX += speed;
+            }
+
+            newX = Math.max(
+                0,
+                Math.min(mazeLimit,newX)
+            );
+
+            newY = Math.max(
+                0,
+                Math.min(mazeLimit,newY)
+            );
+
+            return {
+                x:newX,
+                y:newY
+            };
+        });
+    };
 
     useEffect(()=>{
 
         const handleMovement = (e)=>{
 
-            const speed = 20;
+            if(e.key === "ArrowUp"){
+                movePlayer("up");
+            }
 
-            setPlayerPos(prev=>{
+            if(e.key === "ArrowDown"){
+                movePlayer("down");
+            }
 
-                let newX = prev.x;
-                let newY = prev.y;
+            if(e.key === "ArrowLeft"){
+                movePlayer("left");
+            }
 
-                if(e.key === "ArrowUp"){
-                    newY -= speed;
-                }
-
-                if(e.key === "ArrowDown"){
-                    newY += speed;
-                }
-
-                if(e.key === "ArrowLeft"){
-                    newX -= speed;
-                }
-
-                if(e.key === "ArrowRight"){
-                    newX += speed;
-                }
-
-                newX = Math.max(
-                    0,
-                    Math.min(660,newX)
-                );
-
-                newY = Math.max(
-                    0,
-                    Math.min(660,newY)
-                );
-
-                return {
-                    x:newX,
-                    y:newY
-                };
-            });
-
+            if(e.key === "ArrowRight"){
+                movePlayer("right");
+            }
         };
 
         window.addEventListener(
@@ -122,9 +162,17 @@ function Level2() {
             );
         };
 
-    },[]);
+    },[
+        currentQuestion,
+        gameOver
+    ]);
 
     useEffect(()=>{
+
+        if(
+            currentQuestion ||
+            gameOver
+        ) return;
 
         checkpoints.forEach((door)=>{
 
@@ -162,7 +210,12 @@ function Level2() {
 
         });
 
-    },[playerPos]);
+    },[
+        playerPos,
+        currentQuestion,
+        checkpointStatus,
+        gameOver
+    ]);
 
     const handleAnswer = (selected)=>{
 
@@ -202,6 +255,20 @@ function Level2() {
         setCurrentQuestion(null);
     };
 
+    const completed =
+    Object.keys(
+        checkpointStatus
+    ).length === 10;
+
+    useEffect(()=>{
+
+        if(completed){
+
+            setGameOver(true);
+        }
+
+    },[completed]);
+
     return (
 
         <div className="level2-page">
@@ -224,7 +291,8 @@ function Level2() {
 
                 <p className="instructions">
 
-                    Use arrow keys to
+                    Use arrow keys or
+                    mobile controls to
                     move and clear all
                     checkpoints.
 
@@ -318,6 +386,46 @@ function Level2() {
 
             </div>
 
+            <div className="mobile-controls">
+
+                <button
+                    onClick={()=>
+                        movePlayer("up")
+                    }
+                >
+                    ⬆
+                </button>
+
+                <div>
+
+                    <button
+                        onClick={()=>
+                            movePlayer("left")
+                        }
+                    >
+                        ⬅
+                    </button>
+
+                    <button
+                        onClick={()=>
+                            movePlayer("down")
+                        }
+                    >
+                        ⬇
+                    </button>
+
+                    <button
+                        onClick={()=>
+                            movePlayer("right")
+                        }
+                    >
+                        ➡
+                    </button>
+
+                </div>
+
+            </div>
+
             {
                 currentQuestion &&
 
@@ -333,18 +441,28 @@ function Level2() {
             }
 
             {
-                Object.keys(
-                    checkpointStatus
-                ).length === 10 &&
+                gameOver &&
 
                 <div className="game-over">
 
                     <h1>
-                        LEVEL COMPLETE 🔥
+
+                        {
+                            completed
+
+                            ?
+
+                            "LEVEL COMPLETE 🔥"
+
+                            :
+
+                            "TIME OVER ⏳"
+                        }
+
                     </h1>
 
                     <h2>
-                        Total Score :
+                        Final Score :
                         {score}
                     </h2>
 
@@ -362,23 +480,6 @@ function Level2() {
                         NEXT LEVEL
 
                     </button>
-
-                </div>
-            }
-
-            {
-                timeLeft <= 0 &&
-
-                <div className="game-over">
-
-                    <h1>
-                        TIME OVER ⏳
-                    </h1>
-
-                    <h2>
-                        Final Score :
-                        {score}
-                    </h2>
 
                 </div>
             }

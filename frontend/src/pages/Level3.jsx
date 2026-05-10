@@ -58,6 +58,13 @@ function Level3() {
 
     const [
 
+        gameOver,
+        setGameOver
+
+    ] = useState(false);
+
+    const [
+
         levelComplete,
         setLevelComplete
 
@@ -69,10 +76,8 @@ function Level3() {
     useEffect(()=>{
 
         if(
-
             timeLeft <= 0 ||
-            levelComplete
-
+            gameOver
         ) return;
 
         const timer =
@@ -89,8 +94,17 @@ function Level3() {
 
     },[
         timeLeft,
-        levelComplete
+        gameOver
     ]);
+
+    useEffect(()=>{
+
+        if(timeLeft <= 0){
+
+            setGameOver(true);
+        }
+
+    },[timeLeft]);
 
     useEffect(()=>{
 
@@ -135,10 +149,10 @@ function Level3() {
     const revealTile = ()=>{
 
         if(
-
             revealedTiles.length >=
-            totalTiles
+            totalTiles ||
 
+            gameOver
         ) return;
 
         let randomTile;
@@ -171,7 +185,10 @@ function Level3() {
 
     const handleGuess = ()=>{
 
-        if(timeLeft <= 0) return;
+        if(
+            timeLeft <= 0 ||
+            gameOver
+        ) return;
 
         if(
 
@@ -231,6 +248,8 @@ function Level3() {
                 );
 
                 setLevelComplete(true);
+
+                setGameOver(true);
             }
         }
 
@@ -333,6 +352,7 @@ function Level3() {
 
                 <button
                     onClick={revealTile}
+                    disabled={gameOver}
                 >
 
                     Reveal Tile
@@ -347,6 +367,8 @@ function Level3() {
 
                     value={guess}
 
+                    disabled={gameOver}
+
                     onChange={(e)=>
 
                         setGuess(
@@ -357,6 +379,7 @@ function Level3() {
 
                 <button
                     onClick={handleGuess}
+                    disabled={gameOver}
                 >
 
                     Submit Guess
@@ -366,17 +389,29 @@ function Level3() {
             </div>
 
             {
-                levelComplete &&
+                gameOver &&
 
                 <div className="game-over">
 
                     <h1>
-                        LEVEL COMPLETE 🔥
+
+                        {
+                            levelComplete
+
+                            ?
+
+                            "LEVEL COMPLETE 🔥"
+
+                            :
+
+                            "TIME OVER ⏳"
+                        }
+
                     </h1>
 
                     <h2>
 
-                        Total Score :
+                        Final Score :
                         {score}
 
                     </h2>
@@ -398,26 +433,6 @@ function Level3() {
                         NEXT LEVEL
 
                     </button>
-
-                </div>
-            }
-
-            {
-                timeLeft <= 0 &&
-                !levelComplete &&
-
-                <div className="game-over">
-
-                    <h1>
-                        TIME OVER ⏳
-                    </h1>
-
-                    <h2>
-
-                        Final Score :
-                        {score}
-
-                    </h2>
 
                 </div>
             }
