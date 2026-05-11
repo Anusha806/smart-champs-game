@@ -31,7 +31,7 @@ function Level5() {
 
     const gridSize = 36;
 
-    const maxRounds = 5;
+    const maxRounds = 10;
 
     const [round,setRound] =
     useState(1);
@@ -79,7 +79,7 @@ function Level5() {
         timeLeft,
         setTimeLeft
 
-    ] = useState(120);
+    ] = useState(150);
 
     useEffect(()=>{
 
@@ -114,8 +114,6 @@ function Level5() {
     useEffect(()=>{
 
         if(timeLeft <= 0){
-
-            setCurrentLevel(6);
 
             setGameOver(true);
         }
@@ -159,9 +157,25 @@ function Level5() {
 
     },[]);
 
+    const getSequenceLength = ()=>{
+
+        if(round <= 3){
+
+            return 3;
+        }
+
+        if(round <= 6){
+
+            return 4;
+        }
+
+        return 5;
+    };
+
     const generatePattern = ()=>{
 
-        const sequenceLength = 3;
+        const sequenceLength =
+        getSequenceLength();
 
         let temp = [];
 
@@ -217,7 +231,7 @@ function Level5() {
 
                     Math.max(
                         250,
-                        700 - round*50
+                        700 - round*35
                     )
                 )
             );
@@ -289,17 +303,15 @@ function Level5() {
 
             toast.success(
 
-                `Round ${round} Cleared 🔥`
+                `Puzzle ${round} Cleared 🔥`
             );
 
             setScore(prev=>
 
-                prev + round * 25
+                prev + 10
             );
 
             if(round === maxRounds){
-
-                setCurrentLevel(6);
 
                 setLevelComplete(true);
 
@@ -335,7 +347,7 @@ function Level5() {
 
                 <h2>
 
-                    Round :
+                    Puzzle :
                     {round}/{maxRounds}
 
                 </h2>
@@ -349,8 +361,8 @@ function Level5() {
             <p className="instruction">
 
                 Watch carefully and
-                repeat the sequence
-                in exact order.
+                repeat the glowing
+                sequence in exact order.
 
             </p>
 
@@ -365,6 +377,7 @@ function Level5() {
                             key={index}
 
                             className={`
+
                                 reactor-cell
 
                                 ${
@@ -409,7 +422,13 @@ function Level5() {
             </div>
 
             {
-                gameOver &&
+
+                (
+                    gameOver ||
+                    timeLeft <= 0
+                )
+
+                &&
 
                 <div className="game-over">
 
@@ -443,6 +462,8 @@ function Level5() {
                         "next-btn"
 
                         onClick={()=>{
+
+                            setCurrentLevel(6);
 
                             navigate(
                                 "/level6"

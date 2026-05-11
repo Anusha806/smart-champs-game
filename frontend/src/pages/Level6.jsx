@@ -53,21 +53,28 @@ function Level6() {
     useState(false);
 
     const [timeLeft,setTimeLeft] =
-    useState(120);
+    useState(90);
 
     const [gameOver,setGameOver] =
     useState(false);
 
-    const [levelComplete,
-    setLevelComplete] =
-    useState(false);
+    const [
+
+        levelComplete,
+        setLevelComplete
+
+    ] = useState(false);
 
     useEffect(()=>{
 
         const shuffled =
 
         [...symbols]
-        .sort(()=>Math.random()-0.5);
+
+        .sort(()=>
+
+            Math.random() - 0.5
+        );
 
         setCards(shuffled);
 
@@ -100,8 +107,6 @@ function Level6() {
     useEffect(()=>{
 
         if(timeLeft <= 0){
-
-            setCurrentLevel(7);
 
             setGameOver(true);
         }
@@ -168,11 +173,11 @@ function Level6() {
 
                 setScore(prev=>
 
-                    prev + 30
+                    prev + 10
                 );
 
                 toast.success(
-                    "Matched! +30"
+                    "Matched! +10"
                 );
 
                 setFlipped([]);
@@ -188,11 +193,15 @@ function Level6() {
 
                     setDisabled(false);
 
-                },800);
+                },700);
             }
         }
 
-    },[flipped]);
+    },[
+        flipped,
+        cards,
+        setScore
+    ]);
 
     const handleFlip =
     (index)=>{
@@ -210,6 +219,9 @@ function Level6() {
             timeLeft <= 0
 
         ) return;
+
+        if(flipped.length >= 2)
+        return;
 
         setFlipped(prev=>[
 
@@ -229,8 +241,6 @@ function Level6() {
     useEffect(()=>{
 
         if(completed){
-
-            setCurrentLevel(7);
 
             setLevelComplete(true);
 
@@ -262,13 +272,15 @@ function Level6() {
             <p className="instruction">
 
                 Match all hidden
-                symbol pairs.
+                symbol pairs before
+                time runs out.
 
             </p>
 
             <div className="memory-grid">
 
                 {
+
                     cards.map((card,index)=>(
 
                         <div
@@ -325,7 +337,13 @@ function Level6() {
             </div>
 
             {
-                gameOver &&
+
+                (
+                    gameOver ||
+                    timeLeft <= 0
+                )
+
+                &&
 
                 <div className="game-over">
 
@@ -359,6 +377,8 @@ function Level6() {
                         "next-btn"
 
                         onClick={()=>{
+
+                            setCurrentLevel(7);
 
                             navigate(
                                 "/level7"

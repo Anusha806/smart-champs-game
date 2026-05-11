@@ -26,9 +26,7 @@
 
     flex-wrap:wrap;
 
-    gap:20px;
-
-    text-align:center;
+    gap:15px;
 }
 
 .level3-page h1{
@@ -48,13 +46,11 @@
 
     text-align:center;
 
-    margin-bottom:35px;
+    margin-bottom:20px;
 
     color:#CBD5E1;
 
     font-size:1.05rem;
-
-    padding:0 10px;
 }
 
 .puzzle-grid{
@@ -105,27 +101,25 @@
 
     background-repeat:no-repeat;
 
-    background-size:cover;
+    background-size:500px 500px;
 }
 
 .controls{
 
-    margin-top:40px;
+    margin-top:35px;
 
     display:flex;
 
     justify-content:center;
 
-    align-items:center;
-
-    gap:20px;
+    gap:15px;
 
     flex-wrap:wrap;
 }
 
 .controls button{
 
-    padding:12px 25px;
+    padding:12px 22px;
 
     min-height:48px;
 
@@ -155,7 +149,7 @@
 
     padding:12px;
 
-    width:min(90vw,250px);
+    width:250px;
 
     min-height:48px;
 
@@ -168,13 +162,67 @@
     font-size:1rem;
 }
 
+.question-selector{
+
+    margin-top:40px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+}
+
+.selector-btn{
+
+    width:50px;
+
+    height:50px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#1E293B;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    border:2px solid #334155;
+}
+
+.selector-btn:hover{
+
+    transform:scale(1.08);
+}
+
+.active-selector{
+
+    background:#38BDF8;
+
+    box-shadow:
+    0 0 20px #38BDF8;
+}
+
+.solved-selector{
+
+    background:#22C55E;
+
+    border-color:#22C55E;
+}
+
 .game-over{
 
     margin-top:40px;
 
     text-align:center;
-
-    padding:20px;
 }
 
 .next-btn{
@@ -216,16 +264,28 @@
 
     .controls{
 
-        gap:15px;
+        gap:12px;
     }
 
-    .controls button{
+    .controls input{
 
-        width:220px;
+        width:100%;
+    }
+
+    .selector-btn{
+
+        width:45px;
+
+        height:45px;
     }
 }
 
 @media(max-width:500px){
+
+    .level3-page{
+
+        padding:25px 10px;
+    }
 
     .level3-top{
 
@@ -233,36 +293,37 @@
 
         justify-content:center;
 
-        gap:12px;
-    }
-
-    .hint{
-
-        font-size:14px;
+        text-align:center;
     }
 
     .controls{
 
         flex-direction:column;
+
+        align-items:center;
     }
 
     .controls button{
 
-        width:90%;
+        width:100%;
     }
 
     .controls input{
 
-        width:90%;
+        width:100%;
     }
 
-    .next-btn{
+    .question-selector{
 
-        width:90%;
+        gap:8px;
     }
 
-    .puzzle-grid{
+    .selector-btn{
 
-        gap:4px;
+        width:42px;
+
+        height:42px;
+
+        border-radius:10px;
     }
 }

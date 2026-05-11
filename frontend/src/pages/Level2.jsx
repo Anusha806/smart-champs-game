@@ -1,11 +1,28 @@
-import { useContext, useEffect, useState } from "react";
-import { GameContext } from "../context/GameContext";
-import Timer from "../components/Timer";
-import QuestionCard from "../components/QuestionCard";
-import questions from "../data/questions";
+import {
+    useContext,
+    useEffect,
+    useState
+} from "react";
+
+import { GameContext }
+from "../context/GameContext";
+
+import Timer
+from "../components/Timer";
+
+import QuestionCard
+from "../components/QuestionCard";
+
+import level2Questions
+from "../data/level2Questions";
+
 import "./Level2.css";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+
+import { useNavigate }
+from "react-router-dom";
+
+import toast
+from "react-hot-toast";
 
 function Level2() {
 
@@ -15,44 +32,50 @@ function Level2() {
         setCurrentLevel
     } = useContext(GameContext);
 
-    const navigate = useNavigate();
+    const navigate =
+    useNavigate();
 
-    const [timeLeft,setTimeLeft] =
-    useState(90);
+    const [
+        timeLeft,
+        setTimeLeft
+    ] = useState(90);
 
-    const [currentQuestion,
-    setCurrentQuestion] =
-    useState(null);
+    const [
+        currentQuestion,
+        setCurrentQuestion
+    ] = useState(null);
 
-    const [playerPos,setPlayerPos] =
-    useState({
+    const [
+        playerPos,
+        setPlayerPos
+    ] = useState({
         x:20,
         y:20
     });
 
-    const [checkpointStatus,
-    setCheckpointStatus] =
-    useState({});
+    const [
+        checkpointStatus,
+        setCheckpointStatus
+    ] = useState({});
 
-    const [gameOver,setGameOver] =
-    useState(false);
-
-    const mazeLimit = 660;
+    const [
+        gameOver,
+        setGameOver
+    ] = useState(false);
 
     const checkpoints = [
 
-        {id:1,x:80,y:80},
-        {id:2,x:250,y:100},
-        {id:3,x:500,y:120},
-        {id:4,x:600,y:250},
-        {id:5,x:100,y:300},
+        {id:1,x:8,y:8},
+        {id:2,x:28,y:12},
+        {id:3,x:50,y:15},
+        {id:4,x:72,y:18},
+        {id:5,x:85,y:35},
 
-        {id:6,x:250,y:400},
-        {id:7,x:500,y:450},
-        {id:8,x:650,y:550},
-        {id:9,x:120,y:600},
-        {id:10,x:350,y:600}
-
+        {id:6,x:65,y:55},
+        {id:7,x:42,y:68},
+        {id:8,x:18,y:72},
+        {id:9,x:25,y:88},
+        {id:10,x:75,y:85}
     ];
 
     useEffect(()=>{
@@ -62,15 +85,22 @@ function Level2() {
             gameOver
         ) return;
 
-        const timer = setInterval(()=>{
+        const timer =
+        setInterval(()=>{
 
-            setTimeLeft(prev=>prev-1);
+            setTimeLeft(prev=>
+
+                prev - 1
+            );
 
         },1000);
 
         return ()=>clearInterval(timer);
 
-    },[timeLeft,gameOver]);
+    },[
+        timeLeft,
+        gameOver
+    ]);
 
     useEffect(()=>{
 
@@ -81,14 +111,15 @@ function Level2() {
 
     },[timeLeft]);
 
-    const movePlayer = (direction)=>{
+    const movePlayer =
+    (direction)=>{
 
         if(
             currentQuestion ||
             gameOver
         ) return;
 
-        const speed = 20;
+        const speed = 4;
 
         setPlayerPos(prev=>{
 
@@ -113,12 +144,12 @@ function Level2() {
 
             newX = Math.max(
                 0,
-                Math.min(mazeLimit,newX)
+                Math.min(90,newX)
             );
 
             newY = Math.max(
                 0,
-                Math.min(mazeLimit,newY)
+                Math.min(90,newY)
             );
 
             return {
@@ -130,7 +161,8 @@ function Level2() {
 
     useEffect(()=>{
 
-        const handleMovement = (e)=>{
+        const handleMovement =
+        (e)=>{
 
             if(e.key === "ArrowUp"){
                 movePlayer("up");
@@ -179,24 +211,26 @@ function Level2() {
             const collision =
 
                 Math.abs(
-                    playerPos.x-door.x
-                ) < 50 &&
+                    playerPos.x - door.x
+                ) < 6 &&
 
                 Math.abs(
-                    playerPos.y-door.y
-                ) < 50;
+                    playerPos.y - door.y
+                ) < 6;
 
             if(
                 collision &&
-                !checkpointStatus[door.id]
+                !checkpointStatus[
+                    door.id
+                ]
             ){
 
                 const randomQuestion =
 
-                questions.level2[
+                level2Questions[
                     Math.floor(
-                        Math.random()*
-                        questions.level2.length
+                        Math.random() *
+                        level2Questions.length
                     )
                 ];
 
@@ -217,14 +251,20 @@ function Level2() {
         gameOver
     ]);
 
-    const handleAnswer = (selected)=>{
+    const handleAnswer =
+    (selected)=>{
 
         if(
+
             selected ===
             currentQuestion.answer
+
         ){
 
-            setScore(prev=>prev+20);
+            setScore(prev=>
+
+                prev + 10
+            );
 
             setCheckpointStatus(prev=>({
 
@@ -235,7 +275,7 @@ function Level2() {
             }));
 
             toast.success(
-                "Checkpoint Cleared! +20"
+                "Checkpoint Cleared! +10"
             );
         }
 
@@ -249,13 +289,16 @@ function Level2() {
                 "wrong"
             }));
 
-            toast.error("Wrong Answer!");
+            toast.error(
+                "Wrong Answer!"
+            );
         }
 
         setCurrentQuestion(null);
     };
 
     const completed =
+
     Object.keys(
         checkpointStatus
     ).length === 10;
@@ -279,7 +322,9 @@ function Level2() {
                     Score : {score}
                 </h2>
 
-                <Timer timeLeft={timeLeft} />
+                <Timer
+                    timeLeft={timeLeft}
+                />
 
             </div>
 
@@ -306,18 +351,21 @@ function Level2() {
                     className="player"
 
                     style={{
-                        left:playerPos.x,
-                        top:playerPos.y
+
+                        left:`${playerPos.x}%`,
+                        top:`${playerPos.y}%`
                     }}
                 ></div>
 
                 {
+
                     checkpoints.map((door)=>(
 
                         <div
                             key={door.id}
 
                             className={`
+
                                 door
 
                                 ${
@@ -350,12 +398,14 @@ function Level2() {
                             `}
 
                             style={{
-                                left:door.x,
-                                top:door.y
+
+                                left:`${door.x}%`,
+                                top:`${door.y}%`
                             }}
                         >
 
                             {
+
                                 checkpointStatus[
                                     door.id
                                 ] === "correct"
@@ -380,7 +430,6 @@ function Level2() {
                             }
 
                         </div>
-
                     ))
                 }
 
@@ -389,9 +438,7 @@ function Level2() {
             <div className="mobile-controls">
 
                 <button
-                    onClick={()=>
-                        movePlayer("up")
-                    }
+                    onClick={()=>movePlayer("up")}
                 >
                     ⬆
                 </button>
@@ -399,25 +446,19 @@ function Level2() {
                 <div>
 
                     <button
-                        onClick={()=>
-                            movePlayer("left")
-                        }
+                        onClick={()=>movePlayer("left")}
                     >
                         ⬅
                     </button>
 
                     <button
-                        onClick={()=>
-                            movePlayer("down")
-                        }
+                        onClick={()=>movePlayer("down")}
                     >
                         ⬇
                     </button>
 
                     <button
-                        onClick={()=>
-                            movePlayer("right")
-                        }
+                        onClick={()=>movePlayer("right")}
                     >
                         ➡
                     </button>
@@ -427,9 +468,11 @@ function Level2() {
             </div>
 
             {
+
                 currentQuestion &&
 
                 <QuestionCard
+
                     currentQuestion={
                         currentQuestion
                     }
@@ -441,13 +484,20 @@ function Level2() {
             }
 
             {
-                gameOver &&
+
+                (
+                    gameOver ||
+                    timeLeft <= 0
+                )
+
+                &&
 
                 <div className="game-over">
 
                     <h1>
 
                         {
+
                             completed
 
                             ?
@@ -462,11 +512,14 @@ function Level2() {
                     </h1>
 
                     <h2>
+
                         Final Score :
                         {score}
+
                     </h2>
 
                     <button
+
                         className="next-btn"
 
                         onClick={()=>{

@@ -32,6 +32,23 @@ function Level3() {
     const navigate =
     useNavigate();
 
+    const [gamePuzzles] =
+    useState(()=>{
+
+        return [
+
+            ...puzzles
+
+        ]
+
+        .sort(()=>
+
+            Math.random() - 0.5
+        )
+
+        .slice(0,10);
+    });
+
     const [
 
         currentPuzzle,
@@ -44,17 +61,35 @@ function Level3() {
         revealedTiles,
         setRevealedTiles
 
+    ] = useState({});
+
+    const [
+
+        guesses,
+        setGuesses
+
+    ] = useState({});
+
+    const [
+
+        solvedPuzzles,
+        setSolvedPuzzles
+
     ] = useState([]);
 
-    const [guess,setGuess] =
-    useState("");
+    const [
+
+        shownHints,
+        setShownHints
+
+    ] = useState([]);
 
     const [
 
         timeLeft,
         setTimeLeft
 
-    ] = useState(90);
+    ] = useState(120);
 
     const [
 
@@ -71,7 +106,9 @@ function Level3() {
     ] = useState(false);
 
     const puzzle =
-    puzzles[currentPuzzle] || {};
+    gamePuzzles[currentPuzzle] || {};
+
+    const totalTiles = 25;
 
     useEffect(()=>{
 
@@ -108,6 +145,25 @@ function Level3() {
 
     useEffect(()=>{
 
+        if(
+
+            solvedPuzzles.length ===
+            gamePuzzles.length
+
+        ){
+
+            setLevelComplete(true);
+
+            setGameOver(true);
+        }
+
+    },[
+        solvedPuzzles,
+        gamePuzzles
+    ]);
+
+    useEffect(()=>{
+
         const handleVisibility =
         ()=>{
 
@@ -119,7 +175,6 @@ function Level3() {
                 );
 
                 toast.error(
-
                     "Tab switch detected!"
                 );
             }
@@ -144,15 +199,19 @@ function Level3() {
 
     },[]);
 
-    const totalTiles = 25;
-
     const revealTile = ()=>{
 
-        if(
-            revealedTiles.length >=
-            totalTiles ||
+        if(gameOver) return;
 
-            gameOver
+        const currentTiles =
+
+        revealedTiles[
+            currentPuzzle
+        ] || [];
+
+        if(
+            currentTiles.length >=
+            totalTiles
         ) return;
 
         let randomTile;
@@ -170,29 +229,55 @@ function Level3() {
 
         while(
 
-            revealedTiles.includes(
+            currentTiles.includes(
                 randomTile
             )
         );
 
-        setRevealedTiles(prev=>[
+        setRevealedTiles(prev=>({
 
             ...prev,
-            randomTile
 
-        ]);
+            [currentPuzzle]:[
+
+                ...currentTiles,
+                randomTile
+            ]
+        }));
+    };
+
+    const moveToNextPuzzle = ()=>{
+
+        const unsolved =
+
+        gamePuzzles.findIndex(
+            (_,index)=>
+
+                !solvedPuzzles.includes(
+                    index
+                )
+        );
+
+        if(unsolved !== -1){
+
+            setCurrentPuzzle(
+                unsolved
+            );
+        }
     };
 
     const handleGuess = ()=>{
 
-        if(
-            timeLeft <= 0 ||
-            gameOver
-        ) return;
+        if(gameOver) return;
+
+        const currentGuess =
+
+        guesses[currentPuzzle]
+        || "";
 
         if(
 
-            guess
+            currentGuess
             .trim()
             .toLowerCase()
 
@@ -204,53 +289,52 @@ function Level3() {
 
         ){
 
-            const bonus =
-            Math.max(
+            if(
 
-                50 -
-                revealedTiles.length * 2,
-
-                10
-            );
+                solvedPuzzles.includes(
+                    currentPuzzle
+                )
+            ) return;
 
             setScore(prev=>
 
-                prev + bonus
+                prev + 10
+            );
+
+            const updatedSolved = [
+
+                ...solvedPuzzles,
+                currentPuzzle
+            ];
+
+            setSolvedPuzzles(
+                updatedSolved
             );
 
             toast.success(
-
-                `Correct! +${bonus} points`
+                "Correct! +10"
             );
 
-            if(
+            setTimeout(()=>{
 
-                currentPuzzle <
-                puzzles.length - 1
+                const nextPuzzle =
 
-            ){
+                gamePuzzles.findIndex(
+                    (_,index)=>
 
-                setCurrentPuzzle(prev=>
-
-                    prev + 1
+                        !updatedSolved.includes(
+                            index
+                        )
                 );
 
-                setRevealedTiles([]);
+                if(nextPuzzle !== -1){
 
-                setGuess("");
-            }
+                    setCurrentPuzzle(
+                        nextPuzzle
+                    );
+                }
 
-            else{
-
-                toast.success(
-
-                    "All puzzles completed!"
-                );
-
-                setLevelComplete(true);
-
-                setGameOver(true);
-            }
+            },700);
         }
 
         else{
@@ -259,6 +343,30 @@ function Level3() {
                 "Wrong Guess!"
             );
         }
+    };
+
+    const showHint = ()=>{
+
+        if(
+
+            shownHints.includes(
+                currentPuzzle
+            )
+
+        ) return;
+
+        setShownHints(prev=>[
+
+            ...prev,
+            currentPuzzle
+        ]);
+
+        toast(
+
+            `Answer has ${
+                puzzle.answer.length
+            } letters`
+        );
     };
 
     return (
@@ -277,18 +385,13 @@ function Level3() {
 
                 <h2>
 
-                    Puzzle {
+                    Solved :
 
-                        Math.min(
+                    {
+                        solvedPuzzles.length
+                    }
 
-                            currentPuzzle + 1,
-
-                            puzzles.length
-                        )
-
-                    }/
-
-                    {puzzles.length}
+                    /10
 
                 </h2>
 
@@ -305,6 +408,34 @@ function Level3() {
 
             </p>
 
+            {
+
+                shownHints.includes(
+                    currentPuzzle
+                )
+
+                &&
+
+                <p
+                    className="hint"
+                >
+
+                    Answer contains
+
+                    {" "}
+
+                    {
+                        puzzle.answer
+                        ?.length
+                    }
+
+                    {" "}
+
+                    letters
+
+                </p>
+            }
+
             <div className="puzzle-grid">
 
                 {
@@ -319,7 +450,13 @@ function Level3() {
 
                             {
 
-                                revealedTiles.includes(index)
+                                (
+                                    revealedTiles[
+                                        currentPuzzle
+                                    ] || []
+                                )
+
+                                .includes(index)
 
                                 &&
 
@@ -359,22 +496,39 @@ function Level3() {
 
                 </button>
 
+                <button
+                    onClick={showHint}
+                    disabled={gameOver}
+                >
+
+                    Show Hint
+
+                </button>
+
                 <input
                     type="text"
 
                     placeholder=
                     "Guess Landmark"
 
-                    value={guess}
+                    value={
+                        guesses[
+                            currentPuzzle
+                        ] || ""
+                    }
 
                     disabled={gameOver}
 
-                    onChange={(e)=>
+                    onChange={(e)=>{
 
-                        setGuess(
+                        setGuesses(prev=>({
+
+                            ...prev,
+
+                            [currentPuzzle]:
                             e.target.value
-                        )
-                    }
+                        }));
+                    }}
                 />
 
                 <button
@@ -388,8 +542,85 @@ function Level3() {
 
             </div>
 
+            <div
+                className="question-selector"
+            >
+
+                {
+
+                    gamePuzzles.map(
+                    (_,index)=>(
+
+                        <button
+                            key={index}
+
+                            className={`
+
+                                selector-btn
+
+                                ${
+                                    currentPuzzle
+                                    === index
+
+                                    ?
+
+                                    "active-selector"
+
+                                    :
+
+                                    ""
+                                }
+
+                                ${
+                                    solvedPuzzles
+                                    .includes(index)
+
+                                    ?
+
+                                    "solved-selector"
+
+                                    :
+
+                                    ""
+                                }
+                            `}
+
+                            onClick={()=>{
+
+                                setCurrentPuzzle(
+                                    index
+                                );
+                            }}
+                        >
+
+                            {
+
+                                solvedPuzzles
+                                .includes(index)
+
+                                ?
+
+                                "✅"
+
+                                :
+
+                                index + 1
+                            }
+
+                        </button>
+                    ))
+                }
+
+            </div>
+
             {
-                gameOver &&
+
+                (
+                    gameOver ||
+                    timeLeft <= 0
+                )
+
+                &&
 
                 <div className="game-over">
 

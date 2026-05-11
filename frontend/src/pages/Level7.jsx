@@ -7,8 +7,8 @@ import {
 import { GameContext }
 from "../context/GameContext";
 
-import questions
-from "../data/questions";
+import level7Questions
+from "../data/level7Questions";
 
 import "./Level7.css";
 
@@ -24,7 +24,8 @@ function Level7() {
 
         score,
         setScore,
-        setCurrentLevel
+        setCurrentLevel,
+        setWarnings
 
     } = useContext(GameContext);
 
@@ -62,25 +63,39 @@ function Level7() {
 
     ] = useState(false);
 
-    const [randomQuestions] =
+    const [
+
+        solvedQuestions,
+        setSolvedQuestions
+
+    ] = useState([]);
+
+    const [
+
+        answeredQuestions,
+        setAnsweredQuestions
+
+    ] = useState([]);
+
+    const [gameQuestions] =
     useState(()=>{
 
         return [
 
-            ...questions.level7
+            ...level7Questions
 
         ]
 
         .sort(()=>
 
-            Math.random()-0.5
+            Math.random() - 0.5
         )
 
-        .slice(0,10);
+        .slice(0,15);
     });
 
     const currentQuestion =
-    randomQuestions[currentIndex] || {};
+    gameQuestions[currentIndex] || {};
 
     useEffect(()=>{
 
@@ -94,7 +109,7 @@ function Level7() {
 
             setTimeLeft(prev=>
 
-                prev-1
+                prev - 1
             );
 
         },1000);
@@ -115,6 +130,62 @@ function Level7() {
 
     },[timeLeft]);
 
+    useEffect(()=>{
+
+        if(
+
+            answeredQuestions.length ===
+            gameQuestions.length
+
+        ){
+
+            setCompleted(true);
+
+            setGameOver(true);
+        }
+
+    },[
+        answeredQuestions,
+        gameQuestions
+    ]);
+
+    useEffect(()=>{
+
+        const handleVisibility =
+        ()=>{
+
+            if(document.hidden){
+
+                setWarnings(prev=>
+
+                    prev + 1
+                );
+
+                toast.error(
+                    "Tab switch detected!"
+                );
+            }
+        };
+
+        document.addEventListener(
+
+            "visibilitychange",
+
+            handleVisibility
+        );
+
+        return ()=>{
+
+            document.removeEventListener(
+
+                "visibilitychange",
+
+                handleVisibility
+            );
+        };
+
+    },[]);
+
     const handleAnswer =
     (selected)=>{
 
@@ -125,6 +196,24 @@ function Level7() {
             timeLeft <= 0
 
         ) return;
+
+        if(
+
+            answeredQuestions.includes(
+                currentIndex
+            )
+        ){
+
+            toast.error(
+                "Already Answered"
+            );
+
+            return;
+        }
+
+        let updatedSolved =
+
+        [...solvedQuestions];
 
         if(
 
@@ -140,25 +229,24 @@ function Level7() {
                 newStreak
             );
 
-            let points = 30;
-
-            if(newStreak >= 3){
-
-                points += 15;
-
-                toast.success(
-                    "Logic Combo Bonus 🔥"
-                );
-            }
-
             setScore(prev=>
 
-                prev + points
+                prev + 10
+            );
+
+            updatedSolved = [
+
+                ...solvedQuestions,
+                currentIndex
+
+            ];
+
+            setSolvedQuestions(
+                updatedSolved
             );
 
             toast.success(
-
-                `+${points} Points`
+                "+10 Points"
             );
         }
 
@@ -171,25 +259,35 @@ function Level7() {
             );
         }
 
-        if(
+        const updatedAnswered = [
 
-            currentIndex <
-            randomQuestions.length - 1
+            ...answeredQuestions,
+            currentIndex
+        ];
 
-        ){
+        setAnsweredQuestions(
+            updatedAnswered
+        );
 
-            setCurrentIndex(prev=>
+        setTimeout(()=>{
 
-                prev + 1
+            const nextQuestion =
+
+            gameQuestions.findIndex(
+                (_,index)=>
+
+                    !updatedAnswered
+                    .includes(index)
             );
-        }
 
-        else{
+            if(nextQuestion !== -1){
 
-            setCompleted(true);
+                setCurrentIndex(
+                    nextQuestion
+                );
+            }
 
-            setGameOver(true);
-        }
+        },500);
     };
 
     return (
@@ -218,8 +316,7 @@ function Level7() {
 
             {
 
-                !completed &&
-                timeLeft > 0 &&
+                !gameOver &&
                 currentQuestion.question &&
 
                 <div className="logic-card">
@@ -244,6 +341,13 @@ function Level7() {
                                 <button
                                     key={index}
 
+                                    disabled={
+                                        answeredQuestions
+                                        .includes(
+                                            currentIndex
+                                        )
+                                    }
+
                                     onClick={()=>{
 
                                         handleAnswer(
@@ -263,8 +367,119 @@ function Level7() {
                 </div>
             }
 
+            <div
+                className="question-selector"
+            >
+
+                {
+
+                    gameQuestions.map(
+                    (_,index)=>(
+
+                        <button
+                            key={index}
+
+                            className={`
+
+                                selector-btn
+
+                                ${
+                                    currentIndex
+                                    === index
+
+                                    ?
+
+                                    "active-selector"
+
+                                    :
+
+                                    ""
+                                }
+
+                                ${
+                                    solvedQuestions
+                                    .includes(index)
+
+                                    ?
+
+                                    "solved-selector"
+
+                                    :
+
+                                    answeredQuestions
+                                    .includes(index)
+
+                                    ?
+
+                                    "wrong-selector"
+
+                                    :
+
+                                    ""
+                                }
+                            `}
+
+                            onClick={()=>{
+
+                                setCurrentIndex(
+                                    index
+                                );
+                            }}
+                        >
+
+                            {
+
+                                solvedQuestions
+                                .includes(index)
+
+                                ?
+
+                                "✅"
+
+                                :
+
+                                answeredQuestions
+                                .includes(index)
+
+                                ?
+
+                                "❌"
+
+                                :
+
+                                index + 1
+                            }
+
+                        </button>
+                    ))
+                }
+
+            </div>
+
+            <div className="progress">
+
+                Answered :
+
+                {
+
+                    answeredQuestions.length
+
+                }
+
+                /
+
+                {gameQuestions.length}
+
+            </div>
+
             {
-                gameOver &&
+
+                (
+                    gameOver ||
+                    timeLeft <= 0
+                )
+
+                &&
 
                 <div className="game-over">
 
@@ -292,29 +507,24 @@ function Level7() {
 
                     </h2>
 
-                    {
+                    <button
 
-                        completed &&
+                        className=
+                        "next-btn"
 
-                        <button
+                        onClick={()=>{
 
-                            className=
-                            "next-btn"
+                            setCurrentLevel(8);
 
-                            onClick={()=>{
+                            navigate(
+                                "/level8"
+                            );
+                        }}
+                    >
 
-                                setCurrentLevel(8);
+                        FINAL LEVEL
 
-                                navigate(
-                                    "/level8"
-                                );
-                            }}
-                        >
-
-                            FINAL LEVEL
-
-                        </button>
-                    }
+                    </button>
 
                 </div>
             }

@@ -7,8 +7,8 @@ import {
 import { GameContext }
 from "../context/GameContext";
 
-import questions
-from "../data/questions";
+import level4Questions
+from "../data/level4Questions";
 
 import "./Level4.css";
 
@@ -32,6 +32,23 @@ function Level4() {
     const navigate =
     useNavigate();
 
+    const [gameQuestions] =
+    useState(()=>{
+
+        return [
+
+            ...level4Questions
+
+        ]
+
+        .sort(()=>
+
+            Math.random() - 0.5
+        )
+
+        .slice(0,10);
+    });
+
     const [
 
         currentIndex,
@@ -39,29 +56,50 @@ function Level4() {
 
     ] = useState(0);
 
-    const [input,setInput] =
-    useState("");
+    const [
+
+        answers,
+        setAnswers
+
+    ] = useState({});
 
     const [
 
-        completed,
-        setCompleted
+        solvedQuestions,
+        setSolvedQuestions
 
-    ] = useState(0);
+    ] = useState([]);
 
     const [
 
         timeLeft,
         setTimeLeft
 
-    ] = useState(75);
+    ] = useState(90);
+
+    const [
+
+        gameOver,
+        setGameOver
+
+    ] = useState(false);
+
+    const [
+
+        levelComplete,
+        setLevelComplete
+
+    ] = useState(false);
 
     const currentPuzzle =
-    questions.level4[currentIndex] || {};
+    gameQuestions[currentIndex] || {};
 
     useEffect(()=>{
 
-        if(timeLeft <= 0) return;
+        if(
+            timeLeft <= 0 ||
+            gameOver
+        ) return;
 
         const timer =
         setInterval(()=>{
@@ -75,7 +113,38 @@ function Level4() {
 
         return ()=>clearInterval(timer);
 
+    },[
+        timeLeft,
+        gameOver
+    ]);
+
+    useEffect(()=>{
+
+        if(timeLeft <= 0){
+
+            setGameOver(true);
+        }
+
     },[timeLeft]);
+
+    useEffect(()=>{
+
+        if(
+
+            solvedQuestions.length ===
+            gameQuestions.length
+
+        ){
+
+            setLevelComplete(true);
+
+            setGameOver(true);
+        }
+
+    },[
+        solvedQuestions,
+        gameQuestions
+    ]);
 
     useEffect(()=>{
 
@@ -116,11 +185,19 @@ function Level4() {
 
     const handleSubmit = ()=>{
 
-        if(timeLeft <= 0) return;
+        if(
+            timeLeft <= 0 ||
+            gameOver
+        ) return;
+
+        const currentInput =
+
+        answers[currentIndex]
+        || "";
 
         if(
 
-            input
+            currentInput
             .trim()
             .toUpperCase()
 
@@ -133,40 +210,58 @@ function Level4() {
 
         ){
 
+            if(
+
+                solvedQuestions.includes(
+                    currentIndex
+                )
+            ) return;
+
             setScore(prev=>
 
-                prev + 25
+                prev + 10
+            );
+
+            const updatedSolved = [
+
+                ...solvedQuestions,
+                currentIndex
+            ];
+
+            setSolvedQuestions(
+                updatedSolved
             );
 
             toast.success(
-                "+25 Points"
+                "+10 Points"
             );
+
+            setTimeout(()=>{
+
+                const nextQuestion =
+
+                gameQuestions.findIndex(
+                    (_,index)=>
+
+                        !updatedSolved.includes(
+                            index
+                        )
+                );
+
+                if(nextQuestion !== -1){
+
+                    setCurrentIndex(
+                        nextQuestion
+                    );
+                }
+
+            },700);
         }
 
         else{
 
             toast.error(
                 "Wrong Answer"
-            );
-        }
-
-        setCompleted(prev=>
-
-            prev + 1
-        );
-
-        setInput("");
-
-        if(
-
-            currentIndex <
-            questions.level4.length - 1
-
-        ){
-
-            setCurrentIndex(prev=>
-
-                prev + 1
             );
         }
     };
@@ -188,7 +283,8 @@ function Level4() {
             </h2>
 
             {
-                timeLeft > 0 &&
+
+                !gameOver &&
 
                 <div className="crossword-card">
 
@@ -196,7 +292,9 @@ function Level4() {
 
                         Clue :
 
-                        {currentPuzzle.clue}
+                        {
+                            currentPuzzle.clue
+                        }
 
                     </h3>
 
@@ -217,12 +315,16 @@ function Level4() {
 
                                     {
 
-                                        input[index]
+                                        answers[
+                                            currentIndex
+                                        ]
 
                                         ?
 
-                                        input[index]
-                                        .toUpperCase()
+                                        answers[
+                                            currentIndex
+                                        ][index]
+                                        ?.toUpperCase()
 
                                         :
 
@@ -241,18 +343,31 @@ function Level4() {
                         placeholder=
                         "Type Answer"
 
-                        value={input}
+                        value={
 
-                        onChange={(e)=>
-
-                            setInput(
-                                e.target.value
-                            )
+                            answers[
+                                currentIndex
+                            ] || ""
                         }
+
+                        disabled={gameOver}
+
+                        onChange={(e)=>{
+
+                            setAnswers(prev=>({
+
+                                ...prev,
+
+                                [currentIndex]:
+                                e.target.value
+                            }));
+                        }}
                     />
 
                     <button
                         onClick={handleSubmit}
+
+                        disabled={gameOver}
                     >
 
                         SUBMIT
@@ -264,29 +379,95 @@ function Level4() {
 
             <div className="progress">
 
-                Puzzle {
+                Solved :
 
-                    Math.min(
+                {
 
-                        completed + 1,
+                    solvedQuestions.length
 
-                        questions.level4.length
+                }
 
-                    )
+                /
 
-                }/
+                {gameQuestions.length}
 
-                {questions.level4.length}
+            </div>
+
+            <div
+                className="question-selector"
+            >
+
+                {
+
+                    gameQuestions.map(
+                    (_,index)=>(
+
+                        <button
+                            key={index}
+
+                            className={`
+
+                                selector-btn
+
+                                ${
+                                    currentIndex
+                                    === index
+
+                                    ?
+
+                                    "active-selector"
+
+                                    :
+
+                                    ""
+                                }
+
+                                ${
+                                    solvedQuestions
+                                    .includes(index)
+
+                                    ?
+
+                                    "solved-selector"
+
+                                    :
+
+                                    ""
+                                }
+                            `}
+
+                            onClick={()=>{
+
+                                setCurrentIndex(
+                                    index
+                                );
+                            }}
+                        >
+
+                            {
+
+                                solvedQuestions
+                                .includes(index)
+
+                                ?
+
+                                "✅"
+
+                                :
+
+                                index + 1
+                            }
+
+                        </button>
+                    ))
+                }
 
             </div>
 
             {
+
                 (
-                    completed ===
-                    questions.level4.length
-
-                    ||
-
+                    gameOver ||
                     timeLeft <= 0
                 )
 
@@ -298,15 +479,15 @@ function Level4() {
 
                         {
 
-                            timeLeft <= 0
+                            levelComplete
 
                             ?
 
-                            "TIME OVER ⏳"
+                            "LEVEL COMPLETE 🔥"
 
                             :
 
-                            "LEVEL COMPLETE 🔥"
+                            "TIME OVER ⏳"
                         }
 
                     </h1>
