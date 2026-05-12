@@ -184,6 +184,555 @@ const level1Questions = {
 
     ],
 
+    geography:[
+
+{
+    question:"Which country has the longest coastline in the world?",
+    options:["Russia","Canada","Australia","USA"],
+    answer:"Canada"
+},
+
+{
+    question:"Which desert is the largest cold desert?",
+    options:["Sahara","Gobi","Antarctica","Kalahari"],
+    answer:"Antarctica"
+},
+
+{
+    question:"Which river passes through Egypt?",
+    options:["Amazon","Yangtze","Nile","Danube"],
+    answer:"Nile"
+},
+
+{
+    question:"Which country has the most volcanoes?",
+    options:["Japan","Indonesia","USA","Iceland"],
+    answer:"Indonesia"
+},
+
+{
+    question:"Capital of Argentina?",
+    options:["Lima","Santiago","Buenos Aires","Bogota"],
+    answer:"Buenos Aires"
+},
+
+{
+    question:"Which ocean lies between Africa and Australia?",
+    options:["Pacific","Atlantic","Indian","Arctic"],
+    answer:"Indian"
+},
+
+{
+    question:"Which continent has the most countries?",
+    options:["Asia","Africa","Europe","South America"],
+    answer:"Africa"
+},
+
+{
+    question:"Mount Kilimanjaro is located in?",
+    options:["Kenya","Tanzania","Nepal","Peru"],
+    answer:"Tanzania"
+},
+
+{
+    question:"Which country is known as Land of Midnight Sun?",
+    options:["Norway","Finland","Iceland","Sweden"],
+    answer:"Norway"
+},
+
+{
+    question:"Largest island in the world?",
+    options:["Greenland","Australia","Madagascar","Borneo"],
+    answer:"Greenland"
+},
+
+{
+    question:"Which country has no rivers?",
+    options:["Saudi Arabia","Qatar","UAE","Kuwait"],
+    answer:"Saudi Arabia"
+},
+
+{
+    question:"Which line divides Earth into Northern and Southern Hemisphere?",
+    options:["Prime Meridian","Equator","Tropic of Cancer","Arctic Circle"],
+    answer:"Equator"
+},
+
+{
+    question:"Which country has the city Istanbul?",
+    options:["Turkey","Greece","Italy","Egypt"],
+    answer:"Turkey"
+},
+
+{
+    question:"Largest freshwater lake?",
+    options:["Superior","Baikal","Victoria","Michigan"],
+    answer:"Superior"
+},
+
+{
+    question:"Which continent is Sahara Desert located in?",
+    options:["Asia","Africa","Australia","Europe"],
+    answer:"Africa"
+},
+
+{
+    question:"Capital of New Zealand?",
+    options:["Auckland","Wellington","Hamilton","Christchurch"],
+    answer:"Wellington"
+},
+
+{
+    question:"Which is the deepest ocean?",
+    options:["Atlantic","Indian","Pacific","Arctic"],
+    answer:"Pacific"
+},
+
+{
+    question:"Which country has the pyramids?",
+    options:["Mexico","India","Egypt","Peru"],
+    answer:"Egypt"
+},
+
+{
+    question:"Which country is called Land of Rising Sun?",
+    options:["China","Japan","Thailand","Korea"],
+    answer:"Japan"
+},
+
+{
+    question:"Largest plateau in the world?",
+    options:["Colorado","Deccan","Tibetan","Iranian"],
+    answer:"Tibetan"
+},
+
+{
+    question:"Which country has the Amazon rainforest?",
+    options:["Brazil","Peru","Chile","Argentina"],
+    answer:"Brazil"
+},
+
+{
+    question:"Capital of Switzerland?",
+    options:["Geneva","Zurich","Bern","Basel"],
+    answer:"Bern"
+},
+
+{
+    question:"Which continent has no permanent population?",
+    options:["Europe","Antarctica","Australia","Africa"],
+    answer:"Antarctica"
+},
+
+{
+    question:"Which river is longest in India?",
+    options:["Godavari","Krishna","Ganga","Narmada"],
+    answer:"Ganga"
+},
+
+{
+    question:"Which country shares border with most countries?",
+    options:["China","Russia","India","Brazil"],
+    answer:"China"
+},
+
+{
+    question:"Which is the smallest continent?",
+    options:["Europe","Australia","Antarctica","South America"],
+    answer:"Australia"
+},
+
+{
+    question:"Which country has the city Dubai?",
+    options:["Saudi Arabia","Qatar","UAE","Kuwait"],
+    answer:"UAE"
+},
+
+{
+    question:"Largest bay in the world?",
+    options:["Bay of Bengal","Hudson Bay","Gulf of Mexico","Biscay"],
+    answer:"Bay of Bengal"
+},
+
+{
+    question:"Which mountain range separates Europe and Asia?",
+    options:["Andes","Alps","Urals","Himalayas"],
+    answer:"Urals"
+},
+
+{
+    question:"Which country has the largest population?",
+    options:["India","China","USA","Russia"],
+    answer:"India"
+}
+],
+
+literature:[
+
+{
+    question:"Who wrote 'Hamlet'?",
+    options:["Dickens","Shakespeare","Milton","Twain"],
+    answer:"Shakespeare"
+},
+
+{
+    question:"Who wrote '1984'?",
+    options:["Orwell","Twain","Tolstoy","Rowling"],
+    answer:"Orwell"
+},
+
+{
+    question:"Author of 'The Hobbit'?",
+    options:["Tolkien","Lewis","Shelley","Homer"],
+    answer:"Tolkien"
+},
+
+{
+    question:"Who created Sherlock Holmes?",
+    options:["Doyle","Dickens","Twain","Orwell"],
+    answer:"Doyle"
+},
+
+{
+    question:"Who wrote 'Paradise Lost'?",
+    options:["Milton","Keats","Wordsworth","Shelley"],
+    answer:"Milton"
+},
+
+{
+    question:"Who wrote 'The Odyssey'?",
+    options:["Homer","Virgil","Plato","Socrates"],
+    answer:"Homer"
+},
+
+{
+    question:"Who wrote 'Macbeth'?",
+    options:["Shakespeare","Orwell","Milton","Dante"],
+    answer:"Shakespeare"
+},
+
+{
+    question:"Who wrote 'Animal Farm'?",
+    options:["Orwell","Twain","Shelley","Dickens"],
+    answer:"Orwell"
+},
+
+{
+    question:"Who wrote 'Pride and Prejudice'?",
+    options:["Austen","Bronte","Shelley","Woolf"],
+    answer:"Austen"
+},
+
+{
+    question:"Who wrote 'The Raven'?",
+    options:["Poe","Shelley","Twain","Milton"],
+    answer:"Poe"
+},
+
+{
+    question:"Who wrote 'Frankenstein'?",
+    options:["Shelley","Bronte","Austen","Woolf"],
+    answer:"Shelley"
+},
+
+{
+    question:"Who wrote 'The Iliad'?",
+    options:["Virgil","Homer","Plato","Milton"],
+    answer:"Homer"
+},
+
+{
+    question:"Who wrote 'Treasure Island'?",
+    options:["Stevenson","Twain","Doyle","Dickens"],
+    answer:"Stevenson"
+},
+
+{
+    question:"Who wrote 'The Jungle Book'?",
+    options:["Kipling","Twain","Dickens","Milton"],
+    answer:"Kipling"
+},
+
+{
+    question:"Who wrote 'A Tale of Two Cities'?",
+    options:["Dickens","Twain","Austen","Shelley"],
+    answer:"Dickens"
+},
+
+{
+    question:"Who wrote 'The Merchant of Venice'?",
+    options:["Shakespeare","Homer","Milton","Orwell"],
+    answer:"Shakespeare"
+},
+
+{
+    question:"Who wrote 'The Old Man and the Sea'?",
+    options:["Hemingway","Twain","Doyle","Milton"],
+    answer:"Hemingway"
+},
+
+{
+    question:"Who wrote 'Don Quixote'?",
+    options:["Cervantes","Dante","Virgil","Milton"],
+    answer:"Cervantes"
+},
+
+{
+    question:"Who wrote 'Inferno'?",
+    options:["Dante","Homer","Virgil","Milton"],
+    answer:"Dante"
+},
+
+{
+    question:"Who wrote 'Oliver Twist'?",
+    options:["Dickens","Twain","Orwell","Poe"],
+    answer:"Dickens"
+},
+
+{
+    question:"Who wrote 'Dracula'?",
+    options:["Stoker","Shelley","Twain","Doyle"],
+    answer:"Stoker"
+},
+
+{
+    question:"Who wrote 'Jane Eyre'?",
+    options:["Bronte","Austen","Shelley","Woolf"],
+    answer:"Bronte"
+},
+
+{
+    question:"Who wrote 'The Divine Comedy'?",
+    options:["Dante","Homer","Virgil","Poe"],
+    answer:"Dante"
+},
+
+{
+    question:"Who wrote 'Moby Dick'?",
+    options:["Melville","Twain","Homer","Doyle"],
+    answer:"Melville"
+},
+
+{
+    question:"Who wrote 'War and Peace'?",
+    options:["Tolstoy","Orwell","Twain","Dickens"],
+    answer:"Tolstoy"
+},
+
+{
+    question:"Who wrote 'The Republic'?",
+    options:["Plato","Socrates","Aristotle","Homer"],
+    answer:"Plato"
+},
+
+{
+    question:"Who wrote 'Ulysses'?",
+    options:["Joyce","Twain","Poe","Dante"],
+    answer:"Joyce"
+},
+
+{
+    question:"Who wrote 'The Alchemist'?",
+    options:["Coelho","Twain","Milton","Orwell"],
+    answer:"Coelho"
+},
+
+{
+    question:"Who wrote 'The Time Machine'?",
+    options:["Wells","Verne","Twain","Poe"],
+    answer:"Wells"
+},
+
+{
+    question:"Who wrote 'Gulliver's Travels'?",
+    options:["Swift","Twain","Doyle","Milton"],
+    answer:"Swift"
+}
+],
+
+history:[
+
+{
+    question:"Who was first President of USA?",
+    options:["Lincoln","Washington","Jefferson","Adams"],
+    answer:"Washington"
+},
+
+{
+    question:"In which year did World War II end?",
+    options:["1942","1945","1948","1950"],
+    answer:"1945"
+},
+
+{
+    question:"Who built Taj Mahal?",
+    options:["Akbar","Shah Jahan","Babur","Aurangzeb"],
+    answer:"Shah Jahan"
+},
+
+{
+    question:"Who discovered America?",
+    options:["Cook","Columbus","Magellan","Marco Polo"],
+    answer:"Columbus"
+},
+
+{
+    question:"Who was known as Iron Man of India?",
+    options:["Nehru","Patel","Bose","Gandhi"],
+    answer:"Patel"
+},
+
+{
+    question:"Who founded Maurya Empire?",
+    options:["Ashoka","Chandragupta","Harsha","Akbar"],
+    answer:"Chandragupta"
+},
+
+{
+    question:"Who invented telephone?",
+    options:["Bell","Tesla","Newton","Edison"],
+    answer:"Bell"
+},
+
+{
+    question:"Who was first man on Moon?",
+    options:["Armstrong","Aldrin","Gagarin","Collins"],
+    answer:"Armstrong"
+},
+
+{
+    question:"Who wrote Indian Constitution?",
+    options:["Ambedkar","Nehru","Patel","Gandhi"],
+    answer:"Ambedkar"
+},
+
+{
+    question:"Which empire was ruled by Julius Caesar?",
+    options:["Greek","Roman","Ottoman","Persian"],
+    answer:"Roman"
+},
+
+{
+    question:"Who was first Prime Minister of India?",
+    options:["Nehru","Patel","Rajendra Prasad","Gandhi"],
+    answer:"Nehru"
+},
+
+{
+    question:"Which movement was launched in 1942?",
+    options:["Quit India","Swadeshi","Non Cooperation","Civil Disobedience"],
+    answer:"Quit India"
+},
+
+{
+    question:"Who was leader of Nazi Germany?",
+    options:["Stalin","Hitler","Churchill","Mussolini"],
+    answer:"Hitler"
+},
+
+{
+    question:"Who discovered sea route to India?",
+    options:["Columbus","Vasco da Gama","Cook","Magellan"],
+    answer:"Vasco da Gama"
+},
+
+{
+    question:"Who was called Nightingale of India?",
+    options:["Sarojini Naidu","Indira Gandhi","Annie Besant","Kasturba"],
+    answer:"Sarojini Naidu"
+},
+
+{
+    question:"Which civilization built pyramids?",
+    options:["Romans","Egyptians","Greeks","Mayans"],
+    answer:"Egyptians"
+},
+
+{
+    question:"Who started Buddhism?",
+    options:["Mahavira","Buddha","Ashoka","Harsha"],
+    answer:"Buddha"
+},
+
+{
+    question:"Who was first woman Prime Minister of India?",
+    options:["Sonia Gandhi","Indira Gandhi","Sarojini Naidu","Patil"],
+    answer:"Indira Gandhi"
+},
+
+{
+    question:"Who led Salt March?",
+    options:["Patel","Nehru","Gandhi","Bose"],
+    answer:"Gandhi"
+},
+
+{
+    question:"Which wall divided Berlin?",
+    options:["Berlin Wall","Iron Wall","China Wall","Cold Wall"],
+    answer:"Berlin Wall"
+},
+
+{
+    question:"Who was founder of Mughal Empire?",
+    options:["Babur","Akbar","Humayun","Aurangzeb"],
+    answer:"Babur"
+},
+
+{
+    question:"Who wrote Arthashastra?",
+    options:["Chanakya","Kalidasa","Tulsidas","Valmiki"],
+    answer:"Chanakya"
+},
+
+{
+    question:"Which country gifted Statue of Liberty?",
+    options:["France","Italy","Germany","Spain"],
+    answer:"France"
+},
+
+{
+    question:"Who was first Emperor of Rome?",
+    options:["Augustus","Caesar","Nero","Constantine"],
+    answer:"Augustus"
+},
+
+{
+    question:"Who won Battle of Plassey?",
+    options:["British","French","Mughals","Marathas"],
+    answer:"British"
+},
+
+{
+    question:"Who was founder of Sikhism?",
+    options:["Guru Gobind Singh","Guru Nanak","Guru Arjan","Guru Ramdas"],
+    answer:"Guru Nanak"
+},
+
+{
+    question:"Who wrote Ramayana?",
+    options:["Valmiki","Vyasa","Kalidasa","Tulsidas"],
+    answer:"Valmiki"
+},
+
+{
+    question:"Who was first Governor General of independent India?",
+    options:["Mountbatten","Rajagopalachari","Nehru","Patel"],
+    answer:"Rajagopalachari"
+},
+
+{
+    question:"Who invented printing press?",
+    options:["Newton","Gutenberg","Bell","Tesla"],
+    answer:"Gutenberg"
+},
+
+{
+    question:"Which war ended in 1918?",
+    options:["World War I","World War II","Cold War","Crimean War"],
+    answer:"World War I"
+}
+],
+
     science:[
 
         {
@@ -367,6 +916,8 @@ const level1Questions = {
         }
 
     ]
+
+    
 
 };
 
