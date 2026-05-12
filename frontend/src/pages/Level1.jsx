@@ -52,6 +52,13 @@ function Level1() {
 
     const [
 
+        activeBlock,
+        setActiveBlock
+
+    ] = useState(null);
+
+    const [
+
         completedBlocks,
         setCompletedBlocks
 
@@ -198,33 +205,9 @@ function Level1() {
 
         if(
             block.opened ||
+            currentQuestion ||
             timeLeft <= 0
         ) return;
-
-        const updatedBlocks =
-
-        blocks.map((b)=>
-
-            b.id === block.id
-
-            ?
-
-            {
-                ...b,
-                opened:true
-            }
-
-            :
-
-            b
-        );
-
-        setBlocks(updatedBlocks);
-
-        setCompletedBlocks(prev=>
-
-            prev + 1
-        );
 
         const categoryQuestions =
 
@@ -242,6 +225,8 @@ function Level1() {
                 categoryQuestions.length
             )
         ];
+
+        setActiveBlock(block);
 
         setCurrentQuestion(
             randomQuestion
@@ -293,6 +278,34 @@ function Level1() {
             );
         }
 
+        if(activeBlock){
+
+            const updatedBlocks =
+
+            blocks.map((b)=>
+
+                b.id === activeBlock.id
+
+                ?
+
+                {
+                    ...b,
+                    opened:true
+                }
+
+                :
+
+                b
+            );
+
+            setBlocks(updatedBlocks);
+
+            setCompletedBlocks(prev=>
+
+                prev + 1
+            );
+        }
+
         setTimeout(()=>{
 
             setFeedback("");
@@ -300,6 +313,8 @@ function Level1() {
         },500);
 
         setCurrentQuestion(null);
+
+        setActiveBlock(null);
     };
 
     return (
