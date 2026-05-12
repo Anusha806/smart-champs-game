@@ -1,3 +1,4 @@
+
 import {
     useContext,
     useEffect,
@@ -35,6 +36,9 @@ function Level1() {
         setCurrentLevel
 
     } = useContext(GameContext);
+
+    const navigate =
+    useNavigate();
 
     const [
 
@@ -78,9 +82,6 @@ function Level1() {
 
     ] = useState("");
 
-    const navigate =
-    useNavigate();
-
     const subjects = [
 
         {
@@ -121,19 +122,17 @@ function Level1() {
 
                     ...subject,
 
-                    id:crypto.randomUUID(),
+                    id:`${subject.name}-${i}`,
 
                     opened:false
                 });
             }
         });
 
-        temp.sort(()=>
+        return temp.sort(()=>
 
-            Math.random()-0.5
+            Math.random() - 0.5
         );
-
-        return temp;
     };
 
     const [
@@ -141,7 +140,7 @@ function Level1() {
         blocks,
         setBlocks
 
-    ] = useState(generateBlocks());
+    ] = useState(generateBlocks);
 
     useEffect(()=>{
 
@@ -176,7 +175,7 @@ function Level1() {
 
                 toast.error(
 
-                    "Warning! Tab switching detected!"
+                    "Tab switching detected!"
                 );
             }
         };
@@ -210,10 +209,19 @@ function Level1() {
         ) return;
 
         const categoryQuestions =
+        level1Questions?.[block.name];
 
-        level1Questions[
-            block.name
-        ];
+        if(
+            !categoryQuestions ||
+            categoryQuestions.length === 0
+        ){
+
+            toast.error(
+                `No questions found for ${block.name}`
+            );
+
+            return;
+        }
 
         const randomQuestion =
 
@@ -226,6 +234,15 @@ function Level1() {
             )
         ];
 
+        if(!randomQuestion){
+
+            toast.error(
+                "Question loading failed"
+            );
+
+            return;
+        }
+
         setActiveBlock(block);
 
         setCurrentQuestion(
@@ -236,18 +253,17 @@ function Level1() {
     const handleAnswer =
     (selected)=>{
 
-        if(
+        if(!currentQuestion)
+        return;
 
+        if(
             selected ===
             currentQuestion.answer
-
         ){
 
-            const newStreak =
-            streak + 1;
+            setStreak(prev=>
 
-            setStreak(
-                newStreak
+                prev + 1
             );
 
             setScore(prev=>
@@ -260,8 +276,7 @@ function Level1() {
             );
 
             toast.success(
-
-                "Correct! +10 points"
+                "Correct! +10"
             );
         }
 
@@ -274,31 +289,30 @@ function Level1() {
             );
 
             toast.error(
-                "Wrong Answer!"
+                "Wrong Answer"
             );
         }
 
         if(activeBlock){
 
-            const updatedBlocks =
+            setBlocks(prev=>
 
-            blocks.map((b)=>
+                prev.map((block)=>
 
-                b.id === activeBlock.id
+                    block.id === activeBlock.id
 
-                ?
+                    ?
 
-                {
-                    ...b,
-                    opened:true
-                }
+                    {
+                        ...block,
+                        opened:true
+                    }
 
-                :
+                    :
 
-                b
+                    block
+                )
             );
-
-            setBlocks(updatedBlocks);
 
             setCompletedBlocks(prev=>
 
@@ -333,24 +347,13 @@ function Level1() {
                     <div className="stat-box">
 
                         Blocks Opened :
-
-                        {" "}
-
-                        {
-                            completedBlocks
-                        }
-
-                        /25
+                        {completedBlocks}/25
 
                     </div>
 
                     <div className="stat-box">
 
-                        Current Streak :
-
-                        {" "}
-
-                        {streak}
+                        Streak : {streak}
 
                     </div>
 
@@ -396,9 +399,8 @@ function Level1() {
 
             <p className="instruction">
 
-                Click a color block
-                to receive a challenge
-                question.
+                Click on any block
+                to answer a question.
 
             </p>
 
@@ -492,7 +494,6 @@ function Level1() {
 
                 (
                     timeLeft <= 0 ||
-
                     completedBlocks === 25
                 )
 
@@ -505,37 +506,12 @@ function Level1() {
                     </h1>
 
                     <h2>
-
-                        Final Score :
-
-                        {" "}
-
-                        {score}
-
+                        Final Score : {score}
                     </h2>
 
                     <h3>
-
                         Blocks Completed :
-
-                        {" "}
-
-                        {
-                            completedBlocks
-                        }
-
-                        /25
-
-                    </h3>
-
-                    <h3>
-
-                        Best Streak :
-
-                        {" "}
-
-                        {streak}
-
+                        {completedBlocks}/25
                     </h3>
 
                     <button
@@ -565,3 +541,4 @@ function Level1() {
 }
 
 export default Level1;
+
