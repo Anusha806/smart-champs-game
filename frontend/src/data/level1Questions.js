@@ -544,7 +544,7 @@ literature:[
 },
 
 {
-    question:"Who wrote 'Gulliver's Travels'?",
+    question:"Who wrote 'Gulliver\\'s Travels'?",
     options:["Swift","Twain","Doyle","Milton"],
     answer:"Swift"
 }
