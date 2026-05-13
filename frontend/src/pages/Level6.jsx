@@ -22,7 +22,8 @@ function Level6() {
         score,
         setScore,
         setCurrentLevel,
-        setWarnings
+        setWarnings,
+        setTotalTime
 
     } = useContext(GameContext);
 
@@ -84,7 +85,8 @@ function Level6() {
 
         if(
             timeLeft <= 0 ||
-            gameOver
+            gameOver ||
+            levelComplete
         ) return;
 
         const timer =
@@ -101,7 +103,8 @@ function Level6() {
 
     },[
         timeLeft,
-        gameOver
+        gameOver,
+        levelComplete
     ]);
 
     useEffect(()=>{
@@ -260,7 +263,7 @@ function Level6() {
                 </h2>
 
                 <h2>
-                    ⏳ {timeLeft}s
+                    {timeLeft}s
                 </h2>
 
             </div>
@@ -355,11 +358,11 @@ function Level6() {
 
                             ?
 
-                            "LEVEL COMPLETE 🏆"
+                            "LEVEL COMPLETE"
 
                             :
 
-                            "TIME OVER ⏳"
+                            "TIME OVER"
                         }
 
                     </h1>
@@ -377,6 +380,15 @@ function Level6() {
                         "next-btn"
 
                         onClick={()=>{
+
+                            const usedTime =
+
+                            90 - timeLeft;
+
+                            setTotalTime(prev=>
+
+                                prev + usedTime
+                            );
 
                             setCurrentLevel(7);
 

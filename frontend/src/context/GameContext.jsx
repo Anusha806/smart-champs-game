@@ -4,7 +4,8 @@ import {
     useState
 } from "react";
 
-import API from "../services/api";
+import API
+from "../services/api";
 
 export const GameContext =
 createContext();
@@ -32,8 +33,10 @@ function GameProvider({ children }) {
     );
 
     const [
+
         currentLevel,
         setCurrentLevel
+
     ] = useState(
 
         Number(
@@ -53,6 +56,20 @@ function GameProvider({ children }) {
             )
         ) || 0
 
+    );
+
+    const [
+
+        totalTime,
+        setTotalTime
+
+    ] = useState(
+
+        Number(
+            localStorage.getItem(
+                "totalTime"
+            )
+        ) || 0
     );
 
     const [loading,setLoading] =
@@ -96,6 +113,15 @@ function GameProvider({ children }) {
 
     useEffect(()=>{
 
+        localStorage.setItem(
+            "totalTime",
+            totalTime
+        );
+
+    },[totalTime]);
+
+    useEffect(()=>{
+
         if(!teamName) return;
 
         const saveProgress =
@@ -110,9 +136,18 @@ function GameProvider({ children }) {
                     {
 
                         teamName,
+
                         score,
-                        level:currentLevel,
-                        warnings
+
+                        level:
+                        currentLevel,
+
+                        warnings,
+
+                        levelsCompleted:
+                        currentLevel - 1,
+
+                        totalTime
                     }
                 );
 
@@ -130,9 +165,11 @@ function GameProvider({ children }) {
         saveProgress();
 
     },[
+
         score,
         currentLevel,
-        warnings
+        warnings,
+        totalTime
     ]);
 
     return (
@@ -152,6 +189,9 @@ function GameProvider({ children }) {
 
                 warnings,
                 setWarnings,
+
+                totalTime,
+                setTotalTime,
 
                 loading,
                 setLoading

@@ -1,4 +1,3 @@
-
 import {
     useContext,
     useEffect,
@@ -11,14 +10,14 @@ from "../context/GameContext";
 import toast
 from "react-hot-toast";
 
-import level1Questions
-from "../data/level1Questions";
-
 import Timer
 from "../components/Timer";
 
 import QuestionCard
 from "../components/QuestionCard";
+
+import API
+from "../services/api";
 
 import "./Level1.css";
 
@@ -33,12 +32,34 @@ function Level1() {
         score,
         setScore,
         setWarnings,
-        setCurrentLevel
+        setCurrentLevel,
+        setTotalTime
 
     } = useContext(GameContext);
 
     const navigate =
     useNavigate();
+
+    const [
+
+        questions,
+        setQuestions
+
+    ] = useState([]);
+
+    const [
+
+        loading,
+        setLoading
+
+    ] = useState(true);
+
+    const [
+
+        usedQuestions,
+        setUsedQuestions
+
+    ] = useState([]);
 
     const [
 
@@ -144,8 +165,55 @@ function Level1() {
 
     useEffect(()=>{
 
-        if(timeLeft <= 0)
-        return;
+        const fetchQuestions =
+        async()=>{
+
+            try{
+
+                const response =
+
+                await API.get(
+
+                    `/questions/player/${teamName}/1`
+                );
+
+                setQuestions(
+                    response.data
+                );
+            }
+
+            catch(err){
+
+                console.log(err);
+
+                toast.error(
+
+                    "Failed to load questions"
+                );
+            }
+
+            finally{
+
+                setLoading(false);
+            }
+        };
+
+        if(teamName){
+
+            fetchQuestions();
+        }
+
+    },[teamName]);
+
+    useEffect(()=>{
+
+        if(
+
+            timeLeft <= 0 ||
+
+            completedBlocks === 25
+
+        ) return;
 
         const timer =
         setInterval(()=>{
@@ -159,7 +227,10 @@ function Level1() {
 
         return ()=>clearInterval(timer);
 
-    },[timeLeft]);
+    },[
+        timeLeft,
+        completedBlocks
+    ]);
 
     useEffect(()=>{
 
@@ -203,21 +274,58 @@ function Level1() {
     (block)=>{
 
         if(
+
             block.opened ||
+
             currentQuestion ||
+
             timeLeft <= 0
+
         ) return;
 
         const categoryQuestions =
-        level1Questions?.[block.name];
+
+        questions.filter((q)=>
+
+            q.subject?.toLowerCase()
+
+            ===
+
+            block.name.toLowerCase()
+        );
 
         if(
+
             !categoryQuestions ||
+
             categoryQuestions.length === 0
+
         ){
 
             toast.error(
+
                 `No questions found for ${block.name}`
+            );
+
+            return;
+        }
+
+        const availableQuestions =
+
+        categoryQuestions.filter((q)=>
+
+            !usedQuestions.includes(
+                q.question
+            )
+        );
+
+        if(
+            availableQuestions.length === 0
+        ){
+
+            toast.error(
+
+                `No more questions in ${block.name}`
             );
 
             return;
@@ -225,23 +333,24 @@ function Level1() {
 
         const randomQuestion =
 
-        categoryQuestions[
+        availableQuestions[
 
             Math.floor(
 
-                Math.random() *
-                categoryQuestions.length
+                Math.random()
+
+                *
+
+                availableQuestions.length
             )
         ];
 
-        if(!randomQuestion){
+        setUsedQuestions(prev=>[
 
-            toast.error(
-                "Question loading failed"
-            );
+            ...prev,
 
-            return;
-        }
+            randomQuestion.question
+        ]);
 
         setActiveBlock(block);
 
@@ -250,15 +359,36 @@ function Level1() {
         );
     };
 
+    const normalize =
+    (text)=>{
+
+        return text
+
+        ?.replace(/^[A-D]\)\s*/,"")
+
+        .trim()
+        .toLowerCase();
+    };
+
     const handleAnswer =
     (selected)=>{
 
         if(!currentQuestion)
         return;
 
-        if(
-            selected ===
+        const correctAnswer =
+
+        normalize(
             currentQuestion.answer
+        );
+
+        const selectedAnswer =
+
+        normalize(selected);
+
+        if(
+            selectedAnswer ===
+            correctAnswer
         ){
 
             setStreak(prev=>
@@ -330,6 +460,24 @@ function Level1() {
 
         setActiveBlock(null);
     };
+
+    if(loading){
+
+        return (
+
+            <div className="loading-page">
+
+                <div className="loader"></div>
+
+                <h1>
+
+                    Loading Questions...
+
+                </h1>
+
+            </div>
+        );
+    }
 
     return (
 
@@ -521,6 +669,15 @@ function Level1() {
 
                         onClick={()=>{
 
+                            const usedTime =
+
+                            60 - timeLeft;
+
+                            setTotalTime(prev=>
+
+                                prev + usedTime
+                            );
+
                             setCurrentLevel(2);
 
                             navigate(
@@ -541,4 +698,3 @@ function Level1() {
 }
 
 export default Level1;
-

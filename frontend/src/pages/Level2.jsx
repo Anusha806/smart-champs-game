@@ -13,8 +13,8 @@ from "../components/Timer";
 import QuestionCard
 from "../components/QuestionCard";
 
-import level2Questions
-from "../data/level2Questions";
+import API
+from "../services/api";
 
 import "./Level2.css";
 
@@ -27,40 +27,76 @@ from "react-hot-toast";
 function Level2() {
 
     const {
+
+        teamName,
         score,
         setScore,
-        setCurrentLevel
+        setCurrentLevel,
+        setTotalTime
+
     } = useContext(GameContext);
 
     const navigate =
     useNavigate();
 
     const [
+
+        questions,
+        setQuestions
+
+    ] = useState([]);
+
+    const [
+
+        loading,
+        setLoading
+
+    ] = useState(true);
+
+    const [
+
+        usedQuestions,
+        setUsedQuestions
+
+    ] = useState([]);
+
+    const [
+
         timeLeft,
         setTimeLeft
+
     ] = useState(90);
 
     const [
+
         currentQuestion,
         setCurrentQuestion
+
     ] = useState(null);
 
     const [
+
         playerPos,
         setPlayerPos
+
     ] = useState({
+
         x:20,
         y:20
     });
 
     const [
+
         checkpointStatus,
         setCheckpointStatus
+
     ] = useState({});
 
     const [
+
         gameOver,
         setGameOver
+
     ] = useState(false);
 
     const checkpoints = [
@@ -80,9 +116,54 @@ function Level2() {
 
     useEffect(()=>{
 
+        const fetchQuestions =
+        async()=>{
+
+            try{
+
+                const response =
+
+                await API.get(
+
+                    `/questions/player/${teamName}/2`
+                );
+
+                setQuestions(
+                    response.data
+                );
+            }
+
+            catch(err){
+
+                console.log(err);
+
+                toast.error(
+
+                    "Failed to load questions"
+                );
+            }
+
+            finally{
+
+                setLoading(false);
+            }
+        };
+
+        if(teamName){
+
+            fetchQuestions();
+        }
+
+    },[teamName]);
+
+    useEffect(()=>{
+
         if(
             timeLeft <= 0 ||
-            gameOver
+
+            gameOver ||
+
+            completed
         ) return;
 
         const timer =
@@ -153,6 +234,7 @@ function Level2() {
             );
 
             return {
+
                 x:newX,
                 y:newY
             };
@@ -203,7 +285,8 @@ function Level2() {
 
         if(
             currentQuestion ||
-            gameOver
+            gameOver ||
+            loading
         ) return;
 
         checkpoints.forEach((door)=>{
@@ -225,14 +308,43 @@ function Level2() {
                 ]
             ){
 
+                const availableQuestions =
+
+                questions.filter((q)=>
+
+                    !usedQuestions.includes(
+                        q.question
+                    )
+                );
+
+                if(
+                    availableQuestions.length === 0
+                ){
+
+                    toast.error(
+                        "No more questions available"
+                    );
+
+                    return;
+                }
+
                 const randomQuestion =
 
-                level2Questions[
+                availableQuestions[
+
                     Math.floor(
+
                         Math.random() *
-                        level2Questions.length
+
+                        availableQuestions.length
                     )
                 ];
+
+                setUsedQuestions(prev=>[
+
+                    ...prev,
+                    randomQuestion.question
+                ]);
 
                 setCurrentQuestion({
 
@@ -248,16 +360,39 @@ function Level2() {
         playerPos,
         currentQuestion,
         checkpointStatus,
-        gameOver
+        gameOver,
+        questions,
+        loading
     ]);
+
+    const normalize =
+    (text)=>{
+
+        return text
+
+        ?.replace(/^[A-D]\)\s*/,"")
+
+        .trim()
+        .toLowerCase();
+    };
 
     const handleAnswer =
     (selected)=>{
 
+        const selectedAnswer =
+
+        normalize(selected);
+
+        const correctAnswer =
+
+        normalize(
+            currentQuestion.answer
+        );
+
         if(
 
-            selected ===
-            currentQuestion.answer
+            selectedAnswer ===
+            correctAnswer
 
         ){
 
@@ -311,6 +446,24 @@ function Level2() {
         }
 
     },[completed]);
+
+    if(loading){
+
+        return (
+
+            <div className="loading-page">
+
+                <div className="loader"></div>
+
+                <h1>
+
+                    Loading Questions...
+
+                </h1>
+
+            </div>
+        );
+    }
 
     return (
 
@@ -502,11 +655,11 @@ function Level2() {
 
                             ?
 
-                            "LEVEL COMPLETE 🔥"
+                            "LEVEL COMPLETE"
 
                             :
 
-                            "TIME OVER ⏳"
+                            "TIME OVER"
                         }
 
                     </h1>
@@ -523,6 +676,15 @@ function Level2() {
                         className="next-btn"
 
                         onClick={()=>{
+
+                            const usedTime =
+
+                            90 - timeLeft;
+
+                            setTotalTime(prev=>
+
+                                prev + usedTime
+                            );
 
                             setCurrentLevel(3);
 

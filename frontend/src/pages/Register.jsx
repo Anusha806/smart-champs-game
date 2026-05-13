@@ -9,9 +9,13 @@ from "../context/GameContext";
 import { useNavigate }
 from "react-router-dom";
 
-import API from "../services/api";
+import API
+from "../services/api";
 
 import "./Register.css";
+
+import toast
+from "react-hot-toast";
 
 function Register() {
 
@@ -38,7 +42,7 @@ function Register() {
 
         if(team.trim() === ""){
 
-            alert(
+            toast.error(
                 "Please enter team name"
             );
 
@@ -76,8 +80,8 @@ function Register() {
                     player.warnings
                 );
 
-                alert(
-                    "Progress Restored!"
+                toast.success(
+                    "Progress Restored"
                 );
 
                 navigate(
@@ -94,16 +98,72 @@ function Register() {
             console.log(err);
         }
 
-        setTeamName(team);
+        try{
 
-        setScore(0);
+            localStorage.clear();
 
-        setCurrentLevel(1);
+            setTeamName(team);
 
-        setWarnings(0);
+            setScore(0);
 
-        navigate("/level1");
+            setCurrentLevel(1);
+
+            setWarnings(0);
+
+            await API.post(
+
+                `/questions/assign-questions/${team}`
+            );
+
+            toast.success(
+                "Game Loaded Successfully"
+            );
+
+            navigate("/level1");
+
+        }
+
+        catch(err){
+
+            console.log(err);
+
+            toast.error(
+                "Failed to generate game"
+            );
+        }
+
+        finally{
+
+            setLoading(false);
+        }
     };
+
+    if(loading){
+
+        return (
+
+            <div className="loading-page">
+
+                <div className="loader"></div>
+
+                <h1>
+
+                    Please wait while
+                    we load the game...
+
+                </h1>
+
+                <p>
+
+                    Generating unique
+                    questions for your
+                    team.
+
+                </p>
+
+            </div>
+        );
+    }
 
     return (
 
@@ -143,13 +203,7 @@ function Register() {
                     onClick={handleStart}
                 >
 
-                    {
-                        loading
-                        ?
-                        "LOADING..."
-                        :
-                        "START GAME"
-                    }
+                    START GAME
 
                 </button>
 

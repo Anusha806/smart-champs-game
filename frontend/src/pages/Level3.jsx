@@ -25,7 +25,8 @@ function Level3() {
         score,
         setScore,
         setCurrentLevel,
-        setWarnings
+        setWarnings,
+        setTotalTime
 
     } = useContext(GameContext);
 
@@ -114,7 +115,8 @@ function Level3() {
 
         if(
             timeLeft <= 0 ||
-            gameOver
+            gameOver ||
+            levelComplete
         ) return;
 
         const timer =
@@ -131,7 +133,8 @@ function Level3() {
 
     },[
         timeLeft,
-        gameOver
+        gameOver,
+        levelComplete
     ]);
 
     useEffect(()=>{
@@ -244,26 +247,6 @@ function Level3() {
                 randomTile
             ]
         }));
-    };
-
-    const moveToNextPuzzle = ()=>{
-
-        const unsolved =
-
-        gamePuzzles.findIndex(
-            (_,index)=>
-
-                !solvedPuzzles.includes(
-                    index
-                )
-        );
-
-        if(unsolved !== -1){
-
-            setCurrentPuzzle(
-                unsolved
-            );
-        }
     };
 
     const handleGuess = ()=>{
@@ -380,7 +363,7 @@ function Level3() {
                 </h2>
 
                 <h2>
-                    ⏳ {timeLeft}s
+                    {timeLeft}s
                 </h2>
 
                 <h2>
@@ -600,7 +583,7 @@ function Level3() {
 
                                 ?
 
-                                "✅"
+                                "✓"
 
                                 :
 
@@ -631,11 +614,11 @@ function Level3() {
 
                             ?
 
-                            "LEVEL COMPLETE 🔥"
+                            "LEVEL COMPLETE"
 
                             :
 
-                            "TIME OVER ⏳"
+                            "TIME OVER"
                         }
 
                     </h1>
@@ -652,6 +635,15 @@ function Level3() {
                         className="next-btn"
 
                         onClick={()=>{
+
+                            const usedTime =
+
+                            120 - timeLeft;
+
+                            setTotalTime(prev=>
+
+                                prev + usedTime
+                            );
 
                             setCurrentLevel(4);
 

@@ -7,8 +7,8 @@ import {
 import { GameContext }
 from "../context/GameContext";
 
-import level8Questions
-from "../data/level8Questions";
+import API
+from "../services/api";
 
 import "./Level8.css";
 
@@ -22,14 +22,30 @@ function Level8() {
 
     const {
 
+        teamName,
         score,
         setScore,
-        setWarnings
+        setWarnings,
+        setTotalTime
 
     } = useContext(GameContext);
 
     const navigate =
     useNavigate();
+
+    const [
+
+        gameQuestions,
+        setGameQuestions
+
+    ] = useState([]);
+
+    const [
+
+        loading,
+        setLoading
+
+    ] = useState(true);
 
     const [progress,setProgress] =
     useState(0);
@@ -76,22 +92,47 @@ function Level8() {
 
     ] = useState([]);
 
-    const [gameQuestions] =
-    useState(()=>{
+    useEffect(()=>{
 
-        return [
+        const fetchQuestions =
+        async()=>{
 
-            ...level8Questions
+            try{
 
-        ]
+                const response =
 
-        .sort(()=>
+                await API.get(
 
-            Math.random() - 0.5
-        )
+                    `/questions/player/${teamName}/8`
+                );
 
-        .slice(0,15);
-    });
+                setGameQuestions(
+                    response.data
+                );
+            }
+
+            catch(err){
+
+                console.log(err);
+
+                toast.error(
+
+                    "Failed to load final questions"
+                );
+            }
+
+            finally{
+
+                setLoading(false);
+            }
+        };
+
+        if(teamName){
+
+            fetchQuestions();
+        }
+
+    },[teamName]);
 
     const currentQuestion =
     gameQuestions[currentIndex] || {};
@@ -101,7 +142,8 @@ function Level8() {
         if(
 
             timeLeft <= 0 ||
-            gameOver
+            gameOver ||
+            completed
 
         ) return;
 
@@ -119,7 +161,8 @@ function Level8() {
 
     },[
         timeLeft,
-        gameOver
+        gameOver,
+        completed
     ]);
 
     useEffect(()=>{
@@ -137,6 +180,10 @@ function Level8() {
 
             answeredQuestions.length ===
             gameQuestions.length
+
+            &&
+
+            gameQuestions.length > 0
 
         ){
 
@@ -187,6 +234,17 @@ function Level8() {
 
     },[]);
 
+    const normalize =
+    (text)=>{
+
+        return text
+
+        ?.replace(/^[A-D]\)\s*/,"")
+
+        .trim()
+        .toLowerCase();
+    };
+
     const handleAnswer =
     (selected)=>{
 
@@ -216,10 +274,20 @@ function Level8() {
 
         [...solvedQuestions];
 
+        const selectedAnswer =
+
+        normalize(selected);
+
+        const correctAnswer =
+
+        normalize(
+            currentQuestion.answer
+        );
+
         if(
 
-            selected ===
-            currentQuestion.answer
+            selectedAnswer ===
+            correctAnswer
 
         ){
 
@@ -286,6 +354,24 @@ function Level8() {
         },500);
     };
 
+    if(loading){
+
+        return (
+
+            <div className="loading-page">
+
+                <div className="loader"></div>
+
+                <h1>
+
+                    Loading Final Challenge...
+
+                </h1>
+
+            </div>
+        );
+    }
+
     return (
 
         <div className="level8-page">
@@ -297,7 +383,7 @@ function Level8() {
                 </h2>
 
                 <h2>
-                    ⏳ {timeLeft}s
+                    {timeLeft}s
                 </h2>
 
                 <h2>
@@ -471,7 +557,7 @@ function Level8() {
 
                                 ?
 
-                                "✅"
+                                "✓"
 
                                 :
 
@@ -480,7 +566,7 @@ function Level8() {
 
                                 ?
 
-                                "❌"
+                                "✗"
 
                                 :
 
@@ -512,11 +598,11 @@ function Level8() {
 
                             ?
 
-                            "FINALE COMPLETE 🏆"
+                            "FINALE COMPLETE"
 
                             :
 
-                            "TIME OVER ⏳"
+                            "TIME OVER"
                         }
 
                     </h1>
@@ -534,6 +620,15 @@ function Level8() {
                         "next-btn"
 
                         onClick={()=>{
+
+                            const usedTime =
+
+                            150 - timeLeft;
+
+                            setTotalTime(prev=>
+
+                                prev + usedTime
+                            );
 
                             navigate(
                                 "/result"

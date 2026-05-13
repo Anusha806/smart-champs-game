@@ -3,7 +3,8 @@ import {
     useState
 } from "react";
 
-import API from "../services/api";
+import API
+from "../services/api";
 
 import "./Leaderboard.css";
 
@@ -47,6 +48,22 @@ function Leaderboard() {
 
     },[]);
 
+    const formatTime =
+    (seconds)=>{
+
+        const mins =
+
+        Math.floor(
+            seconds / 60
+        );
+
+        const secs =
+
+        seconds % 60;
+
+        return `${mins}m ${secs}s`;
+    };
+
     return (
 
         <div className="leaderboard-page">
@@ -69,8 +86,14 @@ function Leaderboard() {
                     <div className="leaderboard-header">
 
                         <span>Rank</span>
+
                         <span>Team</span>
+
                         <span>Score</span>
+
+                        <span>Levels</span>
+
+                        <span>Time</span>
 
                     </div>
 
@@ -82,8 +105,11 @@ function Leaderboard() {
                                 key={player._id}
 
                                 className={
+
                                     index === 0
+
                                     ?
+
                                     "leaderboard-row first"
 
                                     :
@@ -97,15 +123,41 @@ function Leaderboard() {
                                 </span>
 
                                 <span>
+
                                     {
                                         player.teamName
                                     }
+
                                 </span>
 
                                 <span>
+
                                     {
                                         player.score
                                     }
+
+                                </span>
+
+                                <span>
+
+                                    {
+                                        player.levelsCompleted || 0
+                                    }
+
+                                    /8
+
+                                </span>
+
+                                <span>
+
+                                    {
+
+                                        formatTime(
+
+                                            player.totalTime || 0
+                                        )
+                                    }
+
                                 </span>
 
                             </div>

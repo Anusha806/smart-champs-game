@@ -7,8 +7,8 @@ import {
 import { GameContext }
 from "../context/GameContext";
 
-import level4Questions
-from "../data/level4Questions";
+import API
+from "../services/api";
 
 import "./Level4.css";
 
@@ -22,32 +22,31 @@ function Level4() {
 
     const {
 
+        teamName,
         score,
         setScore,
         setCurrentLevel,
-        setWarnings
+        setWarnings,
+        setTotalTime
 
     } = useContext(GameContext);
 
     const navigate =
     useNavigate();
 
-    const [gameQuestions] =
-    useState(()=>{
+    const [
 
-        return [
+        gameQuestions,
+        setGameQuestions
 
-            ...level4Questions
+    ] = useState([]);
 
-        ]
+    const [
 
-        .sort(()=>
+        loading,
+        setLoading
 
-            Math.random() - 0.5
-        )
-
-        .slice(0,10);
-    });
+    ] = useState(true);
 
     const [
 
@@ -91,6 +90,48 @@ function Level4() {
 
     ] = useState(false);
 
+    useEffect(()=>{
+
+        const fetchQuestions =
+        async()=>{
+
+            try{
+
+                const response =
+
+                await API.get(
+
+                    `/questions/player/${teamName}/4`
+                );
+
+                setGameQuestions(
+                    response.data
+                );
+            }
+
+            catch(err){
+
+                console.log(err);
+
+                toast.error(
+
+                    "Failed to load crossword questions"
+                );
+            }
+
+            finally{
+
+                setLoading(false);
+            }
+        };
+
+        if(teamName){
+
+            fetchQuestions();
+        }
+
+    },[teamName]);
+
     const currentPuzzle =
     gameQuestions[currentIndex] || {};
 
@@ -98,7 +139,8 @@ function Level4() {
 
         if(
             timeLeft <= 0 ||
-            gameOver
+            gameOver ||
+            levelComplete
         ) return;
 
         const timer =
@@ -115,7 +157,8 @@ function Level4() {
 
     },[
         timeLeft,
-        gameOver
+        gameOver,
+        levelComplete
     ]);
 
     useEffect(()=>{
@@ -133,6 +176,10 @@ function Level4() {
 
             solvedQuestions.length ===
             gameQuestions.length
+
+            &&
+
+            gameQuestions.length > 0
 
         ){
 
@@ -183,6 +230,16 @@ function Level4() {
 
     },[]);
 
+    const normalize =
+    (text)=>{
+
+        return text
+
+        ?.trim()
+        .replace(/\s+/g,"")
+        .toUpperCase();
+    };
+
     const handleSubmit = ()=>{
 
         if(
@@ -195,20 +252,17 @@ function Level4() {
         answers[currentIndex]
         || "";
 
-        if(
+        const userAnswer =
 
-            currentInput
-            .trim()
-            .toUpperCase()
+        normalize(currentInput);
 
-            ===
+        const correctAnswer =
 
-            currentPuzzle
-            .answer
-            ?.trim()
-            .toUpperCase()
+        normalize(
+            currentPuzzle.answer
+        );
 
-        ){
+        if(userAnswer === correctAnswer){
 
             if(
 
@@ -266,6 +320,24 @@ function Level4() {
         }
     };
 
+    if(loading){
+
+        return (
+
+            <div className="loading-page">
+
+                <div className="loader"></div>
+
+                <h1>
+
+                    Loading Crossword...
+
+                </h1>
+
+            </div>
+        );
+    }
+
     return (
 
         <div className="level4-page">
@@ -279,7 +351,7 @@ function Level4() {
             </h2>
 
             <h2>
-                ⏳ {timeLeft}s
+                {timeLeft}s
             </h2>
 
             {
@@ -451,7 +523,7 @@ function Level4() {
 
                                 ?
 
-                                "✅"
+                                "✓"
 
                                 :
 
@@ -483,11 +555,11 @@ function Level4() {
 
                             ?
 
-                            "LEVEL COMPLETE 🔥"
+                            "LEVEL COMPLETE"
 
                             :
 
-                            "TIME OVER ⏳"
+                            "TIME OVER"
                         }
 
                     </h1>
@@ -504,6 +576,15 @@ function Level4() {
                         className="next-btn"
 
                         onClick={()=>{
+
+                            const usedTime =
+
+                            90 - timeLeft;
+
+                            setTotalTime(prev=>
+
+                                prev + usedTime
+                            );
 
                             setCurrentLevel(5);
 

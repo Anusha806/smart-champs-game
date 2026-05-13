@@ -22,7 +22,8 @@ function Level5() {
         score,
         setScore,
         setCurrentLevel,
-        setWarnings
+        setWarnings,
+        setTotalTime
 
     } = useContext(GameContext);
 
@@ -91,7 +92,8 @@ function Level5() {
 
         if(
             timeLeft <= 0 ||
-            gameOver
+            gameOver ||
+            levelComplete
         ) return;
 
         const timer =
@@ -108,7 +110,8 @@ function Level5() {
 
     },[
         timeLeft,
-        gameOver
+        gameOver,
+        levelComplete
     ]);
 
     useEffect(()=>{
@@ -280,7 +283,7 @@ function Level5() {
         ){
 
             toast.error(
-                "Wrong Sequence ❌"
+                "Wrong Sequence"
             );
 
             setPlayerInput([]);
@@ -303,7 +306,7 @@ function Level5() {
 
             toast.success(
 
-                `Puzzle ${round} Cleared 🔥`
+                `Puzzle ${round} Cleared`
             );
 
             setScore(prev=>
@@ -353,7 +356,7 @@ function Level5() {
                 </h2>
 
                 <h2>
-                    ⏳ {timeLeft}s
+                    {timeLeft}s
                 </h2>
 
             </div>
@@ -440,11 +443,11 @@ function Level5() {
 
                             ?
 
-                            "LEVEL COMPLETE 🏆"
+                            "LEVEL COMPLETE"
 
                             :
 
-                            "TIME OVER ⏳"
+                            "TIME OVER"
                         }
 
                     </h1>
@@ -462,6 +465,15 @@ function Level5() {
                         "next-btn"
 
                         onClick={()=>{
+
+                            const usedTime =
+
+                            150 - timeLeft;
+
+                            setTotalTime(prev=>
+
+                                prev + usedTime
+                            );
 
                             setCurrentLevel(6);
 

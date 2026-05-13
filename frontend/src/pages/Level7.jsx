@@ -7,8 +7,8 @@ import {
 import { GameContext }
 from "../context/GameContext";
 
-import level7Questions
-from "../data/level7Questions";
+import API
+from "../services/api";
 
 import "./Level7.css";
 
@@ -22,15 +22,31 @@ function Level7() {
 
     const {
 
+        teamName,
         score,
         setScore,
         setCurrentLevel,
-        setWarnings
+        setWarnings,
+        setTotalTime
 
     } = useContext(GameContext);
 
     const navigate =
     useNavigate();
+
+    const [
+
+        gameQuestions,
+        setGameQuestions
+
+    ] = useState([]);
+
+    const [
+
+        loading,
+        setLoading
+
+    ] = useState(true);
 
     const [
 
@@ -77,22 +93,47 @@ function Level7() {
 
     ] = useState([]);
 
-    const [gameQuestions] =
-    useState(()=>{
+    useEffect(()=>{
 
-        return [
+        const fetchQuestions =
+        async()=>{
 
-            ...level7Questions
+            try{
 
-        ]
+                const response =
 
-        .sort(()=>
+                await API.get(
 
-            Math.random() - 0.5
-        )
+                    `/questions/player/${teamName}/7`
+                );
 
-        .slice(0,15);
-    });
+                setGameQuestions(
+                    response.data
+                );
+            }
+
+            catch(err){
+
+                console.log(err);
+
+                toast.error(
+
+                    "Failed to load logic questions"
+                );
+            }
+
+            finally{
+
+                setLoading(false);
+            }
+        };
+
+        if(teamName){
+
+            fetchQuestions();
+        }
+
+    },[teamName]);
 
     const currentQuestion =
     gameQuestions[currentIndex] || {};
@@ -101,7 +142,8 @@ function Level7() {
 
         if(
             timeLeft <= 0 ||
-            gameOver
+            gameOver ||
+            completed
         ) return;
 
         const timer =
@@ -118,7 +160,8 @@ function Level7() {
 
     },[
         timeLeft,
-        gameOver
+        gameOver,
+        completed
     ]);
 
     useEffect(()=>{
@@ -136,6 +179,10 @@ function Level7() {
 
             answeredQuestions.length ===
             gameQuestions.length
+
+            &&
+
+            gameQuestions.length > 0
 
         ){
 
@@ -186,6 +233,17 @@ function Level7() {
 
     },[]);
 
+    const normalize =
+    (text)=>{
+
+        return text
+
+        ?.replace(/^[A-D]\)\s*/,"")
+
+        .trim()
+        .toLowerCase();
+    };
+
     const handleAnswer =
     (selected)=>{
 
@@ -215,10 +273,20 @@ function Level7() {
 
         [...solvedQuestions];
 
+        const selectedAnswer =
+
+        normalize(selected);
+
+        const correctAnswer =
+
+        normalize(
+            currentQuestion.answer
+        );
+
         if(
 
-            selected ===
-            currentQuestion.answer
+            selectedAnswer ===
+            correctAnswer
 
         ){
 
@@ -290,6 +358,24 @@ function Level7() {
         },500);
     };
 
+    if(loading){
+
+        return (
+
+            <div className="loading-page">
+
+                <div className="loader"></div>
+
+                <h1>
+
+                    Loading Logic Reactor...
+
+                </h1>
+
+            </div>
+        );
+    }
+
     return (
 
         <div className="level7-page">
@@ -301,7 +387,7 @@ function Level7() {
                 </h2>
 
                 <h2>
-                    ⏳ {timeLeft}s
+                    {timeLeft}s
                 </h2>
 
                 <h2>
@@ -434,7 +520,7 @@ function Level7() {
 
                                 ?
 
-                                "✅"
+                                "✓"
 
                                 :
 
@@ -443,7 +529,7 @@ function Level7() {
 
                                 ?
 
-                                "❌"
+                                "✗"
 
                                 :
 
@@ -491,11 +577,11 @@ function Level7() {
 
                             ?
 
-                            "LEVEL COMPLETE 🏆"
+                            "LEVEL COMPLETE"
 
                             :
 
-                            "TIME OVER ⏳"
+                            "TIME OVER"
                         }
 
                     </h1>
@@ -513,6 +599,15 @@ function Level7() {
                         "next-btn"
 
                         onClick={()=>{
+
+                            const usedTime =
+
+                            180 - timeLeft;
+
+                            setTotalTime(prev=>
+
+                                prev + usedTime
+                            );
 
                             setCurrentLevel(8);
 
