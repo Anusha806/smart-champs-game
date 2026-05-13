@@ -1,12 +1,12 @@
-const mongoose = require("mongoose");
+const mongoose =
+require("mongoose");
 
 const playerSchema =
+
 new mongoose.Schema({
 
     teamName:{
-        type:String,
-        required:true,
-        unique:true
+        type:String
     },
 
     score:{
@@ -14,24 +14,25 @@ new mongoose.Schema({
         default:0
     },
 
-    level:{
-        type:Number,
-        default:1
-    },
-
     warnings:{
         type:Number,
         default:0
     },
 
-    createdAt:{
-        type:Date,
-        default:Date.now
+    levelsCompleted:{
+        type:Number,
+        default:0
+    },
+
+    totalTime:{
+        type:Number,
+        default:0
     }
 
 });
 
 module.exports =
+
 mongoose.model(
     "Player",
     playerSchema

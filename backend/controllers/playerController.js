@@ -7,22 +7,36 @@ async(req,res)=>{
     try{
 
         const {
+
             teamName,
             score,
             level,
-            warnings
+            warnings,
+            levelsCompleted,
+            totalTime
+
         } = req.body;
 
         let player =
+
         await Player.findOne({
+
             teamName
         });
 
         if(player){
 
             player.score = score;
+
             player.level = level;
+
             player.warnings = warnings;
+
+            player.levelsCompleted =
+            levelsCompleted;
+
+            player.totalTime =
+            totalTime;
 
             await player.save();
 
@@ -32,10 +46,16 @@ async(req,res)=>{
         player = await Player.create({
 
             teamName,
-            score,
-            level,
-            warnings
 
+            score,
+
+            level,
+
+            warnings,
+
+            levelsCompleted,
+
+            totalTime
         });
 
         res.json(player);
@@ -45,6 +65,7 @@ async(req,res)=>{
     catch(err){
 
         res.status(500).json({
+
             error:err.message
         });
     }
@@ -56,9 +77,17 @@ async(req,res)=>{
     try{
 
         const leaderboard =
+
         await Player.find()
 
-        .sort({score:-1})
+        .sort({
+
+            score:-1,
+
+            levelsCompleted:-1,
+
+            totalTime:1
+        })
 
         .limit(10);
 
@@ -69,10 +98,12 @@ async(req,res)=>{
     catch(err){
 
         res.status(500).json({
+
             error:err.message
         });
     }
 };
+
 const getPlayer =
 async(req,res)=>{
 
@@ -82,6 +113,7 @@ async(req,res)=>{
         req.params;
 
         const player =
+
         await Player.findOne({
 
             teamName
@@ -99,9 +131,12 @@ async(req,res)=>{
         });
     }
 };
+
 module.exports = {
 
     savePlayer,
+
     getLeaderboard,
+
     getPlayer
 };
