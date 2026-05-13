@@ -22,7 +22,7 @@ async(prompt)=>{
         {
 
             model:
-            "openai/gpt-3.5-turbo",
+            "mistralai/mistral-7b-instruct:free",
 
             messages:[
 
