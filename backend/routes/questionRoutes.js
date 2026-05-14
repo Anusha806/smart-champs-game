@@ -22,7 +22,7 @@ async(prompt)=>{
         {
 
             model:
-            "mistralai/mistral-7b-instruct:free",
+            "meta-llama/llama-3.2-3b-instruct:free",
 
             messages:[
 
