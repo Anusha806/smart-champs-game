@@ -2,41 +2,39 @@ const mongoose =
 require("mongoose");
 
 const questionSchema =
-
 new mongoose.Schema({
 
     level:{
         type:Number
     },
 
-    type:{
-        type:String
-    },
-
     subject:{
-        type:String
+        type:String,
+        default:""
     },
 
     question:{
-        type:String
-    },
-
-    options:[
-        String
-    ],
-
-    answer:{
-        type:String
+        type:String,
+        default:""
     },
 
     clue:{
-        type:String
-    }
+        type:String,
+        default:""
+    },
 
+    options:{
+        type:[String],
+        default:[]
+    },
+
+    answer:{
+        type:String,
+        default:""
+    }
 });
 
 module.exports =
-
 mongoose.model(
     "Question",
     questionSchema

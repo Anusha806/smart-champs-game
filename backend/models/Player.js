@@ -19,6 +19,11 @@ new mongoose.Schema({
         default:0
     },
 
+    level:{
+        type:Number,
+        default:0
+    },
+
     levelsCompleted:{
         type:Number,
         default:0
