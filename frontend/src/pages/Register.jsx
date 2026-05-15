@@ -139,32 +139,7 @@ function Register() {
         }
     };
 
-    if(loading){
-
-        return (
-
-            <div className="loading-page">
-
-                <div className="loader"></div>
-
-                <h1>
-
-                    Please wait while
-                    we load the game...
-
-                </h1>
-
-                <p>
-
-                    Generating unique
-                    questions for your
-                    team.
-
-                </p>
-
-            </div>
-        );
-    }
+    
 
     return (
 
@@ -201,10 +176,19 @@ function Register() {
                 />
 
                 <button
+
                     onClick={handleStart}
+
+                    disabled={loading}
                 >
 
-                    START GAME
+                    {
+                        loading
+                        ?
+                        "STARTING..."
+                        :
+                        "START GAME"
+                    }
 
                 </button>
 
