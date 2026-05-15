@@ -37,6 +37,36 @@ function Result() {
     const navigate =
     useNavigate();
 
+    const getTimeBonus =
+    ()=>{
+
+        if(totalTime <= 300){
+
+            return 200;
+        }
+
+        if(totalTime <= 480){
+
+            return 150;
+        }
+
+        if(totalTime <= 720){
+
+            return 100;
+        }
+
+        if(totalTime <= 900){
+
+            return 50;
+        }
+
+        return 0;
+    };
+
+    const finalScore =
+
+    score + getTimeBonus();
+
     useEffect(()=>{
 
         const finalizeGame =
@@ -52,7 +82,8 @@ function Result() {
 
                         teamName,
 
-                        score,
+                        score:
+                        finalScore,
 
                         level:
                         currentLevel,
@@ -87,19 +118,19 @@ function Result() {
 
     const getRank = ()=>{
 
-        if(score >= 1000){
+        if(finalScore >= 1000){
             return "Smart Champ";
         }
 
-        if(score >= 700){
+        if(finalScore >= 700){
             return "Mastermind";
         }
 
-        if(score >= 400){
+        if(finalScore >= 400){
             return "Strategist";
         }
 
-        if(score >= 200){
+        if(finalScore >= 200){
             return "Challenger";
         }
 
@@ -169,11 +200,35 @@ function Result() {
                     <div className="stat-box">
 
                         <h3>
-                            Final Score
+                            Base Score
                         </h3>
 
                         <p>
                             {score}
+                        </p>
+
+                    </div>
+
+                    <div className="stat-box">
+
+                        <h3>
+                            Time Bonus
+                        </h3>
+
+                        <p>
+                            +{getTimeBonus()}
+                        </p>
+
+                    </div>
+
+                    <div className="stat-box">
+
+                        <h3>
+                            Final Score
+                        </h3>
+
+                        <p>
+                            {finalScore}
                         </p>
 
                     </div>

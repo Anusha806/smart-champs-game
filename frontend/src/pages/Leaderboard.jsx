@@ -25,6 +25,7 @@ function Leaderboard() {
 
                 const response =
                 await API.get(
+
                     "/players/leaderboard"
                 );
 
@@ -64,13 +65,42 @@ function Leaderboard() {
         return `${mins}m ${secs}s`;
     };
 
+    const getMedal =
+    (index)=>{
+
+        if(index === 0){
+
+            return "🥇";
+        }
+
+        if(index === 1){
+
+            return "🥈";
+        }
+
+        if(index === 2){
+
+            return "🥉";
+        }
+
+        return `#${index+1}`;
+    };
+
     return (
 
         <div className="leaderboard-page">
 
             <h1>
-                GLOBAL LEADERBOARD 🏆
+                GLOBAL LEADERBOARD
             </h1>
+
+            <p className="leaderboard-subtitle">
+
+                Fastest minds.
+                Highest scores.
+                Ultimate champions.
+
+            </p>
 
             {
                 loading ?
@@ -89,11 +119,11 @@ function Leaderboard() {
 
                         <span>Team</span>
 
-                        <span>Score</span>
+                        <span>Final Score</span>
 
                         <span>Levels</span>
 
-                        <span>Time</span>
+                        <span>Total Time</span>
 
                     </div>
 
@@ -118,11 +148,15 @@ function Leaderboard() {
                                 }
                             >
 
-                                <span>
-                                    #{index+1}
+                                <span className="rank-badge">
+
+                                    {
+                                        getMedal(index)
+                                    }
+
                                 </span>
 
-                                <span>
+                                <span className="team-name">
 
                                     {
                                         player.teamName
@@ -130,7 +164,7 @@ function Leaderboard() {
 
                                 </span>
 
-                                <span>
+                                <span className="score-text">
 
                                     {
                                         player.score
