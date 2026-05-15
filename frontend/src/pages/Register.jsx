@@ -112,7 +112,8 @@ function Register() {
 
             await API.post(
 
-                `/questions/assign-questions/${team}`
+                `/questions/assign-questions/${team}`,
+                {}
             );
 
             toast.success(
