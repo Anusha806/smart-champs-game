@@ -24,8 +24,8 @@ function Result() {
         teamName,
         score,
         warnings,
-        currentLevel,
         totalTime,
+
         setTeamName,
         setScore,
         setWarnings,
@@ -36,6 +36,32 @@ function Result() {
 
     const navigate =
     useNavigate();
+
+    useEffect(()=>{
+
+        const savedTeam =
+
+        localStorage.getItem(
+            "teamName"
+        );
+
+        if(
+
+            !teamName &&
+            !savedTeam
+
+        ){
+
+            toast.error(
+                "Session Expired"
+            );
+
+            navigate("/register");
+        }
+
+    },[
+        teamName
+    ]);
 
     const getTimeBonus =
     ()=>{
@@ -85,8 +111,7 @@ function Result() {
                         score:
                         finalScore,
 
-                        level:
-                        currentLevel,
+                        level:8,
 
                         warnings,
 
@@ -94,11 +119,6 @@ function Result() {
 
                         totalTime
                     }
-                );
-
-                await API.delete(
-
-                    `/questions/delete-player/${teamName}`
                 );
 
                 console.log(
@@ -112,25 +132,34 @@ function Result() {
             }
         };
 
-        finalizeGame();
+        if(teamName){
 
-    },[]);
+            finalizeGame();
+        }
+
+    },[
+        teamName
+    ]);
 
     const getRank = ()=>{
 
         if(finalScore >= 1000){
+
             return "Smart Champ";
         }
 
         if(finalScore >= 700){
+
             return "Mastermind";
         }
 
         if(finalScore >= 400){
+
             return "Strategist";
         }
 
         if(finalScore >= 200){
+
             return "Challenger";
         }
 
@@ -159,16 +188,20 @@ function Result() {
         localStorage.clear();
 
         setTeamName("");
+
         setScore(0);
+
         setWarnings(0);
+
         setCurrentLevel(1);
+
         setTotalTime(0);
 
         toast.success(
             "Ready For New Game"
         );
 
-        navigate("/");
+        navigate("/register");
     };
 
     return (

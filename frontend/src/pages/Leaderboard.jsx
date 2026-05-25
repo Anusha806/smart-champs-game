@@ -29,8 +29,47 @@ function Leaderboard() {
                     "/players/leaderboard"
                 );
 
+                const sortedPlayers =
+
+                    response.data.sort(
+
+                        (a,b)=>{
+
+                            if(
+                                b.score !== a.score
+                            ){
+
+                                return (
+                                    b.score - a.score
+                                );
+                            }
+
+                            if(
+
+                                b.levelsCompleted !==
+                                a.levelsCompleted
+
+                            ){
+
+                                return (
+
+                                    b.levelsCompleted -
+
+                                    a.levelsCompleted
+                                );
+                            }
+
+                            return (
+
+                                a.totalTime -
+
+                                b.totalTime
+                            );
+                        }
+                    );
+
                 setPlayers(
-                    response.data
+                    sortedPlayers
                 );
             }
 
@@ -103,7 +142,10 @@ function Leaderboard() {
             </p>
 
             {
-                loading ?
+
+                loading
+
+                ?
 
                 <h2>
                     Loading...
@@ -115,21 +157,32 @@ function Leaderboard() {
 
                     <div className="leaderboard-header">
 
-                        <span>Rank</span>
+                        <span>
+                            Rank
+                        </span>
 
-                        <span>Team</span>
+                        <span>
+                            Team
+                        </span>
 
-                        <span>Final Score</span>
+                        <span>
+                            Final Score
+                        </span>
 
-                        <span>Levels</span>
+                        <span>
+                            Levels
+                        </span>
 
-                        <span>Total Time</span>
+                        <span>
+                            Total Time
+                        </span>
 
                     </div>
 
                     {
+
                         players.map(
-                            (player,index)=>(
+                        (player,index)=>(
 
                             <div
                                 key={player._id}
@@ -148,7 +201,10 @@ function Leaderboard() {
                                 }
                             >
 
-                                <span className="rank-badge">
+                                <span
+                                    className=
+                                    "rank-badge"
+                                >
 
                                     {
                                         getMedal(index)
@@ -156,7 +212,10 @@ function Leaderboard() {
 
                                 </span>
 
-                                <span className="team-name">
+                                <span
+                                    className=
+                                    "team-name"
+                                >
 
                                     {
                                         player.teamName
@@ -164,10 +223,13 @@ function Leaderboard() {
 
                                 </span>
 
-                                <span className="score-text">
+                                <span
+                                    className=
+                                    "score-text"
+                                >
 
                                     {
-                                        player.score
+                                        player.score || 0
                                     }
 
                                 </span>
@@ -175,7 +237,9 @@ function Leaderboard() {
                                 <span>
 
                                     {
-                                        player.levelsCompleted || 0
+
+                                        player
+                                        .levelsCompleted || 0
                                     }
 
                                     /8
@@ -188,7 +252,8 @@ function Leaderboard() {
 
                                         formatTime(
 
-                                            player.totalTime || 0
+                                            player
+                                            .totalTime || 0
                                         )
                                     }
 

@@ -33,6 +33,26 @@ function Level3() {
     const navigate =
     useNavigate();
 
+
+    useEffect(()=>{
+
+    const savedTeam =
+
+    localStorage.getItem(
+        "teamName"
+    );
+
+    if(!savedTeam){
+
+        toast.error(
+            "Session Expired"
+        );
+
+        navigate("/register");
+    }
+
+},[]);
+
     const [gamePuzzles] =
     useState(()=>{
 

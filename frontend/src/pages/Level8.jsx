@@ -106,6 +106,24 @@ function Level8() {
                     `/questions/player/${teamName}/8`
                 );
 
+                if(
+
+                    !response.data ||
+
+                    response.data.length === 0
+
+                ){
+
+                    toast.error(
+
+                        "Session Expired"
+                    );
+
+                    navigate("/register");
+
+                    return;
+                }
+
                 setGameQuestions(
                     response.data
                 );
@@ -119,6 +137,8 @@ function Level8() {
 
                     "Failed to load final questions"
                 );
+
+                navigate("/register");
             }
 
             finally{
@@ -130,6 +150,11 @@ function Level8() {
         if(teamName){
 
             fetchQuestions();
+        }
+
+        else{
+
+            navigate("/register");
         }
 
     },[teamName]);

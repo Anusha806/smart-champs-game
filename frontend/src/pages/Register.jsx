@@ -24,7 +24,8 @@ function Register() {
         setTeamName,
         setScore,
         setCurrentLevel,
-        setWarnings
+        setWarnings,
+        setTotalTime
 
     } = useContext(GameContext);
 
@@ -64,20 +65,42 @@ function Register() {
 
             if(player){
 
+                if(
+
+                    player.levelsCompleted >= 8
+
+                ){
+
+                    toast.success(
+
+                        "Game Already Completed"
+                    );
+
+                    navigate("/leaderboard");
+
+                    return;
+                }
+
+                localStorage.clear();
+
                 setTeamName(
                     player.teamName
                 );
 
                 setScore(
-                    player.score
+                    player.score || 0
                 );
 
                 setCurrentLevel(
-                    player.level
+                    player.level || 1
                 );
 
                 setWarnings(
-                    player.warnings
+                    player.warnings || 0
+                );
+
+                setTotalTime(
+                    player.totalTime || 0
                 );
 
                 toast.success(
@@ -85,7 +108,8 @@ function Register() {
                 );
 
                 navigate(
-                    `/level${player.level}`
+
+                    `/level${player.level || 1}`
                 );
 
                 return;
@@ -110,9 +134,12 @@ function Register() {
 
             setWarnings(0);
 
+            setTotalTime(0);
+
             await API.post(
 
                 `/questions/assign-questions/${team}`,
+
                 {}
             );
 
@@ -129,7 +156,7 @@ function Register() {
             console.log(err);
 
             toast.error(
-                "Failed to generate game"
+                "Failed to start game"
             );
         }
 
@@ -138,8 +165,6 @@ function Register() {
             setLoading(false);
         }
     };
-
-    
 
     return (
 
@@ -184,9 +209,13 @@ function Register() {
 
                     {
                         loading
+
                         ?
+
                         "STARTING..."
+
                         :
+
                         "START GAME"
                     }
 

@@ -45,7 +45,7 @@ const puzzles = [
 {
     hint:"Largest pyramid complex in Egypt",
     answer:"GIZA",
-    image:"https://images.unsplash.com/photo-1572252009286-268acec5ca0a?q=80&w=1200&auto=format&fit=crop"
+    image:"https://media.istockphoto.com/id/178375366/photo/full-sphynx-profile-pyramid-giza-egypt.jpg?s=612x612&w=0&k=20&c=qtwWxnlVtMLTveuGchQSEyHgU2XNgMnZfz6egnMg0sI="
 },
 
 {

@@ -104,9 +104,27 @@ function Level4() {
                     `/questions/player/${teamName}/4`
                 );
 
-                setGameQuestions(
-                    response.data
-                );
+                if(
+
+    !response.data ||
+
+    response.data.length === 0
+
+){
+
+    toast.error(
+
+        "Session Expired"
+    );
+
+    navigate("/register");
+
+    return;
+}
+
+setGameQuestions(
+    response.data
+);
             }
 
             catch(err){
@@ -117,6 +135,7 @@ function Level4() {
 
                     "Failed to load crossword questions"
                 );
+                navigate("/register");
             }
 
             finally{
@@ -127,8 +146,13 @@ function Level4() {
 
         if(teamName){
 
-            fetchQuestions();
-        }
+    fetchQuestions();
+}
+
+else{
+
+    navigate("/register");
+}
 
     },[teamName]);
 

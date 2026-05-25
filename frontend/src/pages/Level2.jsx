@@ -128,9 +128,27 @@ function Level2() {
                     `/questions/player/${teamName}/2`
                 );
 
-                setQuestions(
-                    response.data
-                );
+                if(
+
+    !response.data ||
+
+    response.data.length === 0
+
+){
+
+    toast.error(
+
+        "Session Expired"
+    );
+
+    navigate("/register");
+
+    return;
+}
+
+setQuestions(
+    response.data
+);
             }
 
             catch(err){
@@ -141,6 +159,8 @@ function Level2() {
 
                     "Failed to load questions"
                 );
+
+                navigate("/register");
             }
 
             finally{
@@ -152,6 +172,10 @@ function Level2() {
         if(teamName){
 
             fetchQuestions();
+        }
+        else{
+
+            navigate("/register");
         }
 
     },[teamName]);

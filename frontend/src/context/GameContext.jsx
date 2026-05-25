@@ -145,6 +145,15 @@ function GameProvider({ children }) {
                         warnings,
 
                         levelsCompleted:
+
+                        currentLevel >= 8
+
+                        ?
+
+                        8
+
+                        :
+
                         currentLevel - 1,
 
                         totalTime

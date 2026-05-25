@@ -107,6 +107,24 @@ function Level7() {
                     `/questions/player/${teamName}/7`
                 );
 
+                if(
+
+                    !response.data ||
+
+                    response.data.length === 0
+
+                ){
+
+                    toast.error(
+
+                        "Session Expired"
+                    );
+
+                    navigate("/register");
+
+                    return;
+                }
+
                 setGameQuestions(
                     response.data
                 );
@@ -120,6 +138,8 @@ function Level7() {
 
                     "Failed to load logic questions"
                 );
+
+                navigate("/register");
             }
 
             finally{
@@ -131,6 +151,11 @@ function Level7() {
         if(teamName){
 
             fetchQuestions();
+        }
+
+        else{
+
+            navigate("/register");
         }
 
     },[teamName]);
